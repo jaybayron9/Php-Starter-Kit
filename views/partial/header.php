@@ -8,11 +8,11 @@
     <title>PJMT</title>
 
     <!-- System Logo -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/storage/defaults/logo.ico" type="image/x-icon">
     <!-- Tailwind stlying -->
     <link rel="stylesheet" href="assets/css/output.css">
     <!-- JQuery -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
 </head>
 
-<body>
+<body class="bg-[#F1F5F9]">

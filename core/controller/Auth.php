@@ -9,13 +9,19 @@ class Auth extends DBConn {
 
     public function login() {
         foreach ($_POST as $key => $value) {
-            $key = trim($value);
+            $value = trim($value);
 
-            if (empty($key)) {
-                return parent::alert('', 'Please enter a email address and password.');
+            if (empty($value)) {
+                return parent::alert('error', 'Please enter an email address and password.');
             }
 
-            
+            if ($key === 'email') {
+                if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    return parent::alert('error', 'Please enter a valid email address.');
+                }
+            }
         }
+
+        return parent::alert('success', 'You\'re ready to login.');
     }
 }

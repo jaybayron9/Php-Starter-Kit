@@ -25,6 +25,10 @@ class Database {
             echo "Database created successfully";
         } 
     }
+    
+    public function createTable() {
+        
+    }
 }
 
 new Database();

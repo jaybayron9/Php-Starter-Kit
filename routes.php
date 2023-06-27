@@ -6,5 +6,6 @@ return [
 
     // AUTH
     'login' => view('auth', 'login'),
+    'register' => view('auth', 'register'),
     'forgot_password' => view('auth', 'forgot.pass'),
 ];
