@@ -10,16 +10,22 @@ class Auth extends DBConn {
         }
     }
 
-    public function logout($sess) {
-        foreach ($sess as $data) {
-            unset($data);
-        }
-    }
-
     public static function check_csrf($token) {
         if ($_SESSION['csrf_token'] !== $token) { 
             echo http_response_code(403);
             exit();
+        }
+    }
+
+    public static function check_user_auth($sess, $dir) {
+        if (!isset($sess)) {
+            header("location: $dir");
+        }
+    }
+
+    public function logout($sess) {
+        foreach ($sess as $data) {
+            unset($data);
         }
     }
 

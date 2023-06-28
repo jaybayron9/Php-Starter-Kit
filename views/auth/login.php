@@ -6,7 +6,7 @@
         </div>
         <form id="login-form" class="rounded border border-gray-300 bg-white p-10 ">
             <input type="hidden" name="csrf_token" id="csrf-token" value="<?= $_SESSION['csrf_token'] ?>">
-            <h1 class="text-center text-medium mb-4 font-normal text-gray-900">Login to your account</h1>
+            <h1 class="text-center text-[17px] mb-4 font-normal text-gray-900">Login to your account</h1>
             <div class="mb-4">
                 <div class="mb-2">
                     <label for="email" class="text-[14.5px]">Email Address</label>
