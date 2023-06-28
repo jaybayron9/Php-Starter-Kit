@@ -1,5 +1,10 @@
 <?php 
 
+namespace DBConn;
+
+use PDO;
+use PDOException;
+
 class DBConn {
     protected static $conn;
 
@@ -130,11 +135,9 @@ class DBConn {
     }
 
     public static function alert($status, $message) {
-        return json_encode(
-                array(
+        return json_encode([
                     'status' => $status, 
                     'msg' => $message
-                )
-            );
+                ]);
     }
 }

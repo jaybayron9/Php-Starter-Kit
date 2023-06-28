@@ -1,27 +1,40 @@
 <?php 
 
+namespace Auth;
+use DBConn\DBConn;
+
 class Auth extends DBConn {
     public function __construct() {
         if (!isset($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = uniqid();
+            $_SESSION['csrf_token'] = hash('sha256', uniqid());
         }
     }
 
-    public function login() {
-        foreach ($_POST as $key => $value) {
+    public function logout($sess) {
+        foreach ($sess as $data) {
+            unset($data);
+        }
+    }
+
+    public static function check_csrf($token) {
+        if ($_SESSION['csrf_token'] !== $token) { 
+            echo http_response_code(403);
+            exit();
+        }
+    }
+
+    public static function check_empty($data = []) {
+        foreach ($data as $key => $value) {
             $value = trim($value);
 
             if (empty($value)) {
-                return parent::alert('error', 'Please enter an email address and password.');
-            }
-
-            if ($key === 'email') {
-                if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    return parent::alert('error', 'Please enter a valid email address.');
-                }
+                return true;
             }
         }
+        return false;
+    } 
 
-        return parent::alert('success', 'You\'re ready to login.');
-    }
+    public static function check_email($data) {
+        return !filter_var($data['email'], FILTER_VALIDATE_EMAIL);
+    }    
 }
