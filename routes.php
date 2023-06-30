@@ -1,14 +1,20 @@
 <?php
 
 return [
+    '403' => view('auth', '403'),
     '404' => view('auth', '404'),
-    '' => view(),
-    // Admin Authorization
-    '$admin.lock' => view('admin', 'login'),
-    '$admin.unlock' => view('admin'),
+    '' => view(), // Guest Home Page
 
-    // Client Authorization
-    'login' => view('auth', 'login'),
-    'register' => view('auth', 'register'),
-    'forgot_password' => view('auth', 'forgot.pass'),
+    // Admin Authorization
+    '_admin' => view('admin', 'login'),
+    '_admin/forgot_password' => view('admin', 'forgot-pass'),
+    '_admin/reset_password' => view('admin', 'reset-pass'),
+    '_admin/' => view('admin/unlock'),
+    '_admin/profile' => view('admin/unlock/privacy', 'profile'),
+
+    // Users Authorization
+    'login' => view('user', 'login'),
+    'register' => view('user', 'register'),
+    'forgot_password' => view('user', 'forgot.pass'),
+    '_/' => view('user/unlock'),
 ];

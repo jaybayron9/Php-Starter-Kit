@@ -7,8 +7,12 @@ require_once 'core/functions.php';
 require_once core('Database');
 require_once core('DBConn');
 
-foreach (glob('core/controller/*.php') as $file) {
-    require_once $file;
+foreach (glob('core/utils/*.php') as $utils) {
+    require_once $utils;
+}
+
+foreach (glob('core/controller/*.php') as $control) {
+    require_once $control;
 }
 
 require_once core('ajax.req');

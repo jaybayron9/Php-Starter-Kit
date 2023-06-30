@@ -90,7 +90,7 @@ class DBConn {
     
             return $statement->rowCount();
         } catch (PDOException $e) {
-            echo 'Update failed: ' . $e->getMessage();
+            return self::alert('error', $e->getMessage());
         }
     }
 

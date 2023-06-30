@@ -46,7 +46,7 @@ class Database {
             email varchar(255) DEFAULT NULL UNIQUE,
             email_verified_at DATETIME DEFAULT NULL,
             password varchar(255) NOT NULL,
-            remember_token varchar(100) DEFAULT NULL,
+            password_reset_token varchar(100) DEFAULT NULL,
             profile_photo_path varchar(1000) DEFAULT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
@@ -59,9 +59,9 @@ class Database {
         try {
             $adminsTb = $this->conn->query($this->tableQuery('admins'));
             $supportsTb = $this->conn->query($this->tableQuery('supports'));
-            $clientsTB = $this->conn->query($this->tableQuery('clients'));
+            $usersTB = $this->conn->query($this->tableQuery('users'));
 
-            if ($adminsTb && $supportsTb && $clientsTB !== true) {
+            if ($adminsTb && $supportsTb && $usersTB !== true) {
                 echo "Error creating table: " . $this->conn->error;
             }
         } catch(Exception $e) {

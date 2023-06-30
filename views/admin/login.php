@@ -1,3 +1,9 @@
+<?php 
+if (isset($_SESSION['admin_id'])) {
+    header("location: ?vs=_admin/");
+}
+?>
+
 <div class="flex justify-center items-center mt-20">
     <div class="md:w-2/6 w-96">
         <div class="flex justify-center items-center mb-5 gap-x-3">
@@ -21,7 +27,7 @@
                     <div class="mb-2">
                         <label for="password" class="text-[14.5px]">Password</label>
                     </div>
-                    <a href="?vs=forgot_password" class="hover:underline ml-auto text-[14.5px] text-violet-800">I forgot my password</a>
+                    <a href="?vs=_admin/forgot_password" class="hover:underline ml-auto text-[14.5px] text-violet-800">I forgot my password</a>
                 </div>
                 <input type="password" name="password" id="password" required maxlength="50" placeholder="Password" autocomplete="off"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
             </div>
@@ -38,16 +44,17 @@
             e.preventDefault();
 
             $.ajax({
-                url: '?rq=admin_login',
+                url: '?rq=admin_signin',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function(resp) {
                     if (resp.status === 'success') {
-                        window.location.href = '?vs=$admin.unlock'
+                        window.location.href = '?vs=_admin/'
                     } else if (resp.status === 'error') {
                         $('#alert').removeAttr('hidden');
                         $('#msg').html(resp.msg);
+                        $('#email, #password').val('');
                     }
                 }
             })
