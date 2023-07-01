@@ -43,10 +43,13 @@ class Admin extends DBConn {
                     'password_reset_token' => $token,
                 ], "email = '{$_POST['email']}'");
 
-                $url = 'http://localhost/GitHub/PHPMysqlTailwindJquery/?vs=_admin/reset_password&token=' . $token;
+                $config = require('config.php'); 
+                extract($config['links']);
+
+                $url = $reset_password_url . '?vs=_admin/reset_password&token=' . $token;
 
                 $mailer = new EMailer();
-                $send = $mailer->send($_POST['email'], 'subject', $mailer->temp_body($url));
+                $send = $mailer->send($_POST['email'], 'Admin Password Reset Link', $mailer->temp_body($url));
 
                 if ($send) {
                     return parent::alert('success', 'We have emailed your password reset link!');

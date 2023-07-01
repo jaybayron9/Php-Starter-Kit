@@ -1,7 +1,5 @@
 # PHPMysqlTailwindJquery
 
-Yes, you can use Node.js and npm (Node Package Manager) to clone a GitHub project to your local machine. Here's how you can do it:
-
 1. Install Node.js:
    - Visit the official Node.js website (https://nodejs.org) and download the latest version of Node.js for your operating system.
    - Run the installer and follow the instructions to install Node.js.

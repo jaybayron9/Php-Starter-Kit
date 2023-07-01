@@ -10,7 +10,7 @@ Auth::check_login_auth('admin_id', '_admin/');
     <div class="md:w-2/6 w-96">
         <div class="flex justify-center items-center mb-5 gap-x-3">
             <img src="assets/storage/defaults/logo.ico" alt="logo" class="h-14 w-14">
-            <a href="./" class="font-bold text-1xl mt-1 capitalize">PHPQLJQTL</a>
+            <a href="./" class="font-bold text-1xl mt-1 capitalize">PJMT</a>
         </div>
         <form id="form" class="rounded border border-gray-300 bg-white p-10 ">
             <input type="hidden" name="csrf_token" id="csrf-token" value="<?= $_SESSION['csrf_token'] ?>">
@@ -32,7 +32,7 @@ Auth::check_login_auth('admin_id', '_admin/');
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                </button>
+                </button> 
             </div>
         </form>
         <div class="flex mt-3 gap-x-2 justify-center items-center text-sm">

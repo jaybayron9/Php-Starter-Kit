@@ -2,7 +2,7 @@
     <div class="md:w-2/6 w-96">
         <div class="flex justify-center items-center mb-5 gap-x-3">
             <img src="assets/storage/defaults/logo.ico" alt="logo" class="h-14 w-14">
-            <a href="./" class="font-bold text-1xl mt-1 capitalize">PHPQLJQTL</a>
+            <a href="./" class="font-bold text-1xl mt-1 capitalize">PJMT</a>
         </div>
         <form id="register-form" class="rounded border border-gray-300 bg-white p-10 ">
             <input type="hidden" name="csrf_token" id="csrf-token" value="<?= $_SESSION['csrf_token'] ?>">
@@ -91,6 +91,7 @@
                         }
 
                         $('#email-msg').text(resp.email_format);
+                        $('#email-msg').text(resp.similar_email);
                         $('#pass-msg').text(resp.password_length);
                         $('#confirm-pass-msg').text(resp.pass_confirm);
                     }

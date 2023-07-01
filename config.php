@@ -20,4 +20,7 @@ return [
         'username' => 'tweb65776@gmail.com',
         'password' => 'bgpekesrwlvgrljx',
     ],
+    'links' => [
+        'reset_password_url' => 'http://localhost/GitHub/PHPMysqlTailwindJquery/'
+    ]
 ];

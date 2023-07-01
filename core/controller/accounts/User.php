@@ -50,7 +50,7 @@ class User extends DBConn {
         $error[] = Auth::check_email($_POST) ? 'Invalid email address' : '';
         $error[] = Auth::check_similar_email('users', $_POST['email']) ? 'The email has already been taken.' : '';
         $error[] = Auth::confirm_password($_POST['password'], $_POST['password_confirmation']) ? 'Password do not match' : '';
-        $error[] = Auth::pass_length($_POST['password'], 7) ? 'The password must be between 8 and 96 characters.' : '';
+        $error[] = Auth::pass_length($_POST['password'], 7) ? 'The password must be between 8 to 96 characters.' : '';
 
         if (empty(array_filter($error))) {
             parent::insert('users', [
@@ -92,7 +92,10 @@ class User extends DBConn {
                     'password_reset_token' => $token,
                 ], "email = '{$_POST['email']}'");
 
-                $url = 'http://localhost/GitHub/PHPMysqlTailwindJquery/?vs=reset_password&token=' . $token;
+                $config = require('config.php'); 
+                extract($config['links']);
+
+                $url = $reset_password_url . '?vs=reset_password&token=' . $token;
 
                 $mailer = new EMailer();
                 $send = $mailer->send($_POST['email'], 'Password Reset Link', $mailer->temp_body($url));

@@ -23,8 +23,8 @@ class Database {
 
         $this->conn->select_db($this->get_database_name());
         
-        // self::createTable();
-        // self::createData();
+        self::createTable();
+        self::createData();
     }
 
     public static function get_database_name() {
@@ -36,7 +36,7 @@ class Database {
 
         $sql = "CREATE DATABASE $databaseName";
         if ($this->conn->query($sql) === TRUE) {
-            echo "Database created successfully";
+            echo "Database created successfully with stating users data";
         } 
     }
     
