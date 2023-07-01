@@ -11,7 +11,7 @@ foreach (glob('core/utils/*.php') as $utils) {
     require_once $utils;
 }
 
-foreach (glob('core/controller/*.php') as $control) {
+foreach (glob('core/controller/accounts/*.php') as $control) {
     require_once $control;
 }
 

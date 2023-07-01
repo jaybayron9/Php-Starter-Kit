@@ -2,8 +2,8 @@
 
 use Auth\Auth;
 
-Auth::check_login_auth('admin_id', '_admin/');
-Auth::check_pass_reset_token('admins');
+Auth::check_login_auth('user_id', '_/');
+Auth::check_pass_reset_token('users');
 
 ?>
 
@@ -65,7 +65,7 @@ Auth::check_pass_reset_token('admins');
             $('#spinner').show();
 
             $.ajax({
-                url: '?rq=admin_reset_password',
+                url: '?rq=user_reset_password',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',

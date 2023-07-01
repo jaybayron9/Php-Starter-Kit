@@ -3,8 +3,7 @@ use DBConn\DBConn;
 use Auth\Auth;
 
 Auth::check_user_auth(
-    $_SESSION['user_id'],
-    '?vs=login'
+    'user_id', 'login', 'user_id'
 );
 
 $user_info = DBConn::select('users', '*', [

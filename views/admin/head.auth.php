@@ -3,7 +3,7 @@ use DBConn\DBConn;
 use Auth\Auth;
 
 Auth::check_user_auth(
-    $_SESSION['admin_id'], '?vs=_admin'
+    'admin_id', '_admin'
 );
 
 $admin_info = DBConn::select('admins', '*', [

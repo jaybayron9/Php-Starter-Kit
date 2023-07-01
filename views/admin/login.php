@@ -1,7 +1,8 @@
 <?php 
-if (isset($_SESSION['admin_id'])) {
-    header("location: ?vs=_admin/");
-}
+
+use Auth\Auth;
+Auth::check_login_auth('admin_id', '_admin/');
+
 ?>
 
 <div class="flex justify-center items-center mt-20">
@@ -20,7 +21,7 @@ if (isset($_SESSION['admin_id'])) {
                 <div class="mb-2">
                     <label for="email" class="text-[14.5px]">Email Address</label>
                 </div>
-                <input type="email" name="email" id="email" maxlength="50" required placeholder="example@gmail.com"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
+                <input type="email" name="email" id="email" maxlength="50" required placeholder="user123@example.com"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
             </div>
             <div class="mb-6">  
                 <div class="flex">

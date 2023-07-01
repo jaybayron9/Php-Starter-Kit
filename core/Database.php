@@ -20,9 +20,11 @@ class Database {
         }
 
         $this->createDB();
+
         $this->conn->select_db($this->get_database_name());
         
-        self::createTable();
+        // self::createTable();
+        // self::createData();
     }
 
     public static function get_database_name() {
@@ -69,8 +71,30 @@ class Database {
         }
     }
 
-    public function checkPassword($table, $password) {
-        
+    public function dataQuery($t, $n, $e) {
+        $hashedPassword = password_hash('password123', PASSWORD_BCRYPT);
+
+        $data = "
+            INSERT INTO $t 
+                (name, email, password) 
+            VALUES 
+                ('$n', '$e', '$hashedPassword')";
+
+        return $data;
+    }
+
+    public function createData(){
+        try {
+            $a = $this->conn->query($this->dataQuery('admins', 'Admin One', 'admin@example.com'));
+            $s = $this->conn->query($this->dataQuery('supports', 'Support One', 'supportone@example.com'));
+            $u = $this->conn->query($this->dataQuery('users', 'User One', 'userone@example.com'));
+
+            if ($a && $s && $u !== true) {
+                echo "Error creating table: " . $this->conn->error;
+            }
+        } catch(Exception $e) {
+            echo "An error occurred: " . $e->getMessage();
+        }
     }
 }
 

@@ -1,11 +1,18 @@
-<?php 
+<?php
 
-$url = 'http://localhost/GitHub/PHPMysqlTailwindJquery/?vs=_admin/reset_password#02c9265a60d41f3fa786b24e2c420b297ff432a9c6f4df545a6b65354140ccd5';
+$directory = str_replace('\\', '/', __DIR__);
+echo $directory;
+// if (isset($_POST['remember'])) {
+//     echo $_POST['remember'];
+// }
 
-// Parse the URL
-$parsedUrl = parse_url($url);
+// session_start();
 
-// Get the fragment component
-$fragment = isset($parsedUrl['fragment']) ? $parsedUrl['fragment'] : '';
+// echo $_SESSION['user_id'];
+// echo $_COOKIE['user_id']
+?>
 
-echo "Value after #: " . $fragment;
+<!-- <form action="" method="post">
+    <input type="checkbox" name="remember" id="">
+    <button type="submit">submit</button>
+</form> -->

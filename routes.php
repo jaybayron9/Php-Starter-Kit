@@ -15,6 +15,7 @@ return [
     // Users Authorization
     'login' => view('user', 'login'),
     'register' => view('user', 'register'),
-    'forgot_password' => view('user', 'forgot.pass'),
+    'forgot_password' => view('user', 'forgot-pass'),
+    'reset_password' => view('user', 'reset-pass'),
     '_/' => view('user/unlock'),
 ];

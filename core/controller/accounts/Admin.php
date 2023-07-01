@@ -58,14 +58,26 @@ class Admin extends DBConn {
         return parent::alert('error', 'The Email field is required.');
     }
 
-    public function create() {
-        $hashedPassword = password_hash('password123', PASSWORD_BCRYPT);
+    public function reset_password() {
+        Auth::check_csrf($_POST['csrf_token']);
 
-        DBConn::insert('admins', [
-            'name' => 'Admin One',
-            'phone' => '123-456-7890',
-            'email' => 'jaybayron400@gmail.com',
-            'password' => $hashedPassword
-        ]);
+        if (!Auth::check_empty($_POST)) {
+            $validate = parent::select('admins', 'id', [
+                    'email' => $_POST['email'], 
+                    'password_reset_token' => $_POST['token'],
+                ], null, 1);
+
+            if (count($validate) > 0) {
+                if ($_POST['password'] === $_POST['password_confirmation']) {
+                    DBConn::update('admins', [
+                        'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
+                    ], "id = '{$validate[0]['id']}'");
+                    return parent::alert('success', 'Your password has been changed.');
+                }
+                return parent::alert('error', 'Password does not match.');
+            }
+            return parent::alert('error', 'Email address does not match.');
+        }
+        return parent::alert('error', 'Please fill out the required fields.');
     }
 }
