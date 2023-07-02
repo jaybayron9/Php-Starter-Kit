@@ -6,12 +6,14 @@ use DBConn\DBConn;
 use Auth\Auth;
 
 class User extends DBConn {
-    public function login() {
-        Auth::check_csrf($_POST['csrf_token']);
-        $error['field'] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : null;
-        $error['email'] = Auth::check_email($_POST) ? 'Invalid email address' : null;
-
+    public function sign_in() {
         $msg = 'Incorrect email or password';
+        
+        Auth::check_csrf($_POST['csrf_token']);
+
+        $error['field'] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : null;
+        $error['email'] = Auth::check_email($_POST) ? $msg : null;
+
         if (!empty($error['field']) || !empty($error['email'])) {
             return parent::alert('error', $msg);
         }
@@ -29,7 +31,7 @@ class User extends DBConn {
                 }
 
                 $_SESSION['user_id'] = $v['id'];
-                return parent::alert('success', 'success');
+                return parent::alert('success', '');
             }
         }
 
@@ -44,7 +46,7 @@ class User extends DBConn {
         Auth::sign_out();
     }
 
-    public function register() {
+    public function sign_up() {
         Auth::check_csrf($_POST['csrf_token']);
         $error[] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : '';
         $error[] = Auth::check_email($_POST) ? 'Invalid email address' : '';
@@ -61,7 +63,20 @@ class User extends DBConn {
             $id = parent::select('users', 'id', ['email' => $_POST['email']], null, 1);
             $_SESSION['user_id'] = $id[0]['id'];
 
-            return parent::alert('success', '');
+            $token = bin2hex(random_bytes(32));
+            $config = require('config.php'); 
+            extract($config['links']);
+
+            $url = $reset_password_url . '/?vs=_/&token=' . $token;
+
+            $mailer = new EMailer();
+            $mailer->send($_POST['email'], 'Account Verification', $mailer->email_ver_temp($url));
+
+            parent::update('users', [
+                'email_verify_token' => $token
+            ], "id = '{$id[0]['id']}'");
+
+            return parent::alert('success');
         } else {
             return json_encode([
                 'status' => 'error',
@@ -71,6 +86,27 @@ class User extends DBConn {
                 'pass_confirm' => $error[3],
                 'password_length' => $error[4],
             ]);
+        }
+    }
+
+    public function send_verification_email() {
+        if (isset($_SESSION['user_id'])) {
+            $email = parent::select('users', '*', ['id' => $_SESSION['user_id']], null, 1);
+
+            $token = bin2hex(random_bytes(32));
+            $config = require('config.php'); 
+            extract($config['links']);
+
+            $url = $reset_password_url . '/?vs=_/&token=' . $token;
+
+            $mailer = new EMailer();
+            $mailer->send($email[0]['email'], 'Account Verification', $mailer->email_ver_temp($url));
+
+            parent::update('users', [
+                'email_verify_token' => $token
+            ], "id = '{$_SESSION['user_id']}'");
+
+            header("Location: {$_SERVER['HTTP_REFERER']}");
         }
     }
 
@@ -95,10 +131,10 @@ class User extends DBConn {
                 $config = require('config.php'); 
                 extract($config['links']);
 
-                $url = $reset_password_url . '?vs=reset_password&token=' . $token;
+                $url = $reset_password_url . '/?vs=reset_password&token=' . $token;
 
                 $mailer = new EMailer();
-                $send = $mailer->send($_POST['email'], 'Password Reset Link', $mailer->temp_body($url));
+                $send = $mailer->send($_POST['email'], 'Password Reset Link', $mailer->forgot_temp($url));
 
                 if ($send) {
                     return parent::alert('success', 'We have emailed your password reset link!');
@@ -121,7 +157,7 @@ class User extends DBConn {
 
             if (count($validate) > 0) {
                 if ($_POST['password'] === $_POST['password_confirmation']) {
-                    DBConn::update('users', [
+                    parent::update('users', [
                         'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
                     ], "id = '{$validate[0]['id']}'");
                     return parent::alert('success', 'Your password has been changed.');

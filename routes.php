@@ -12,6 +12,11 @@ return [
     '_admin/' => view('admin/unlock'),
     '_admin/profile' => view('admin/unlock/privacy', 'profile'),
 
+    '_sup' => view('support', 'login'),
+    '_sup/forgot_password' => view('support', 'forgot-pass'),
+    '_sup/reset_password' => view('support', 'reset-pass'),
+    '_sup/' => view('support/unlock'),
+
     // Users Authorization
     'login' => view('user', 'login'),
     'register' => view('user', 'register'),

@@ -50,7 +50,7 @@ class Emailer {
         }
     }
 
-    public function temp_body($url = '') {
+    public function forgot_temp($url = '') {
         return '
             <div style="max-width: 700px; margin: 20px auto; padding: 20px;">
                 <img src="https://scontent.fmnl25-1.fna.fbcdn.net/v/t1.6435-9/32235518_2092951367596524_6930855417807372288_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=174925&_nc_eui2=AeGJymxSoUuj9kbvTkzQy8F67ArPG2SjTxnsCs8bZKNPGfqPYsIxIJ2KQitt1-0jePGq1WYL6tT3EWr4pifnrvZ6&_nc_ohc=U8TubAXvXvUAX-2iRby&_nc_ht=scontent.fmnl25-1.fna&oh=00_AfDTdAcNfbzoxfgHXmfveJwUXTA8cMowlQtZMVaLV2nw8g&oe=64C7C6F0" alt="Logo" style="display: block; max-width: 100px; height: auto; margin-bottom: 20px;">
@@ -74,6 +74,35 @@ class Emailer {
                 <p style="text-align: center;">
                     Have any questions about this email? Check our community forum at PJMT.com. <br>
                     Copyright © 2023 PJMT. All rights reserved.
+                </p>
+            </div>
+        ';
+    }
+
+    public function email_ver_temp($url = '') {
+        return '
+            <div style="max-width: 700px; margin: 20px auto; padding: 20px;">
+                <img src="https://scontent.fmnl25-1.fna.fbcdn.net/v/t1.6435-9/32235518_2092951367596524_6930855417807372288_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=174925&_nc_eui2=AeGJymxSoUuj9kbvTkzQy8F67ArPG2SjTxnsCs8bZKNPGfqPYsIxIJ2KQitt1-0jePGq1WYL6tT3EWr4pifnrvZ6&_nc_ohc=U8TubAXvXvUAX-2iRby&_nc_ht=scontent.fmnl25-1.fna&oh=00_AfDTdAcNfbzoxfgHXmfveJwUXTA8cMowlQtZMVaLV2nw8g&oe=64C7C6F0" alt="Logo" style="display: block; max-width: 100px; height: auto; margin-bottom: 20px;">
+                <div style="max-width: 600px; margin: 20px auto; padding: 20px; background-color: #f7f7f7; border: 1px solid #ddd; border-radius: 5px;">
+                    <h1 style="font-family: Arial, sans-serif; font-size: 24px; margin-top: 0;">Hi,</h1>
+                    <p style="font-family: Arial, sans-serif; line-height: 1.5; margin-bottom: 20px;">
+                        Thank you for registering with YourWeb. To complete your email verification, please click the button below.
+                    </p>
+                    
+                    <p style="text-align: center;">
+                        <a href="'. $url .'" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: #fff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+                    </p>
+                    
+                    <p style="font-family: Arial, sans-serif; line-height: 1.5; margin-bottom: 20px;">
+                        If you did not create an account with YourWeb, you can simply ignore this message.
+                    </p>
+                    
+                    <p style="font-family: Arial, sans-serif; line-height: 1.5;">Regards,<br>YourWeb</p>
+                </div>
+
+                <p style="text-align: center;">
+                    If you have any questions, please contact our support team at support@yourweb.com. <br>
+                    Copyright © 2023 YourWeb. All rights reserved.
                 </p>
             </div>
         ';

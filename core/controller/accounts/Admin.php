@@ -6,7 +6,7 @@ use Auth\Auth;
 use DBConn\DBConn;
 
 class Admin extends DBConn {
-    public function login() {
+    public function sign_in() {
         Auth::check_csrf($_POST['csrf_token']);
         $error['field'] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : null;
         $error['email'] = Auth::check_email($_POST) ? 'Invalid email address' : null;
@@ -24,7 +24,7 @@ class Admin extends DBConn {
             
             if ($email && $pass) {
                 $_SESSION['admin_id'] = $d['id'];
-                return parent::alert('success', 'success');
+                return parent::alert('success', '');
             }
         }
 
@@ -46,10 +46,10 @@ class Admin extends DBConn {
                 $config = require('config.php'); 
                 extract($config['links']);
 
-                $url = $reset_password_url . '?vs=_admin/reset_password&token=' . $token;
+                $url = $reset_password_url . '/?vs=_admin/reset_password&token=' . $token;
 
                 $mailer = new EMailer();
-                $send = $mailer->send($_POST['email'], 'Admin Password Reset Link', $mailer->temp_body($url));
+                $send = $mailer->send($_POST['email'], 'Admin Password Reset Link', $mailer->forgot_temp($url));
 
                 if ($send) {
                     return parent::alert('success', 'We have emailed your password reset link!');
@@ -61,7 +61,7 @@ class Admin extends DBConn {
         return parent::alert('error', 'The Email field is required.');
     }
 
-    public function reset_password() {
+    public function reset_pass() {
         Auth::check_csrf($_POST['csrf_token']);
 
         if (!Auth::check_empty($_POST)) {

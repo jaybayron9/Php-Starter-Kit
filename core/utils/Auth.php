@@ -10,36 +10,66 @@ class Auth {
         }
     }
 
-    public static function check_csrf($token) {
-        if ($_SESSION['csrf_token'] !== $token) { 
+    public static function check_csrf($t) {
+        if ($_SESSION['csrf_token'] !== $t) { 
             echo http_response_code(403);
             exit();
         }
     }
 
-    public static function check_user_auth($session, $dir1, $cookie = '') {
-        if (isset($_COOKIE[$cookie])) {
-            $_SESSION[$session] = $_COOKIE[$cookie];
+    public static function check_user_auth($s, $d, $c = '', $tb = 'users', $d2 = 'user', $f = 'verified-email') {
+        if (isset($_COOKIE[$c])) {
+            $_SESSION[$s] = $_COOKIE[$c];
         }
         
-        if (!isset($_SESSION[$session])) {
-            header("location: ?vs=$dir1");
-        }
-    }
-
-    public static function check_login_auth($key, $dir) {
-        if (isset($_COOKIE[$key]) || isset($_SESSION[$key])) {
-            header("location: ?vs=$dir");
-        }
-    }
-
-    public static function check_pass_reset_token($table) {
         $token = isset($_GET['token']) ? $_GET['token'] : '';
+        $c = DBConn::select($tb, '*', ['email_verify_token' => $token], null, 1);
 
-        $client = DBConn::select($table, '*', ['password_reset_token' => $token], null, 1);
+        if ($c) {
+            DBConn::update('users', [
+                'email_verified_at' => date('Y-m-d H:i:s'),
+            ], "id = '{$c[0]['id']}'");
 
-        if (count($client) > 0) {
-            return $client;
+            $_SESSION[$s] = $c[0]['id'];
+            include view($d2, $f);
+            exit();
+        }
+
+        if (!isset($_SESSION[$s])) {
+            header("location: ?vs=$d");
+        }
+    }
+
+    public static function check_email_verified($a, $t, $id) {
+        $qry = DBConn::DBQuery("
+            SELECT * FROM $t 
+            WHERE 
+                id = $id AND email_verified_at IS NULL OR email_verified_at = ''
+            LIMIT 1"
+        );
+
+        if (count($qry) > 0) {
+            include view("$a/navbars", 'topbar');
+            include view($a, 'verify-email');
+            include view('partial', 'footer');
+            exit;
+        }
+        return false;
+    }
+
+    public static function check_login_auth($k, $d) {
+        if (isset($_COOKIE[$k]) || isset($_SESSION[$k])) {
+            header("location: ?vs=$d");
+        }
+    }
+
+    public static function check_pass_reset_token($tb) {
+        $t = isset($_GET['token']) ? $_GET['token'] : '';
+
+        $c = DBConn::select($tb, '*', ['password_reset_token' => $t], null, 1);
+
+        if (count($c) > 0) {
+            return $c;
         }
             
         http_response_code(403);
@@ -57,11 +87,11 @@ class Auth {
         exit;
     }    
 
-    public static function check_empty($data = []) {
-        foreach ($data as $key => $value) {
-            $value = trim($value);
+    public static function check_empty($d = []) {
+        foreach ($d as $k => $v) {
+            $v = trim($v);
 
-            if (empty($value) && ($key == 'remember' || $key !== 'remember')) {
+            if (empty($v) && ($k == 'remember' || $k !== 'remember')) {
                 return true;
             }
         }

@@ -2,7 +2,7 @@
 
 use Auth\Auth;
 
-Auth::check_login_auth('admin_id', '_admin/');
+Auth::check_login_auth('support_id', '_sup/');
 
 ?>
 
@@ -23,7 +23,7 @@ Auth::check_login_auth('admin_id', '_admin/');
                 <div class="mb-2">
                     <label for="email" class="text-[14.5px]">Email Address</label>
                 </div>
-                <input type="email" name="email" id="email" maxlength="50" required placeholder="admin123@example.com"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
+                <input type="email" name="email" id="email" maxlength="50" required placeholder="support123@example.com"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
             </div>
             <div class="text-center my-2">
                 <button type="submit" class="flex items-center justify-center w-full bg-violet-600 text-base text-white hover:bg-blue-500 py-1 px-3 rounded transition duration-200">
@@ -36,7 +36,7 @@ Auth::check_login_auth('admin_id', '_admin/');
             </div>
         </form>
         <div class="flex mt-3 gap-x-2 justify-center items-center text-sm">
-            <a href="?vs=_admin" class="text-violet-700 hover:underline hover:text-blue-600">Back to login</a>
+            <a href="?vs=_sup" class="text-violet-700 hover:underline hover:text-blue-600">Back to login</a>
         </div>
     </div>
 </div>
@@ -49,7 +49,7 @@ Auth::check_login_auth('admin_id', '_admin/');
             $('#spinner').show();
 
             $.ajax({
-                url: '?rq=admin_send_pass_req',
+                url: '?rq=sup_send_pass_req',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',

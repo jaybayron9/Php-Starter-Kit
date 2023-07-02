@@ -2,8 +2,8 @@
 
 use Auth\Auth;
 
-Auth::check_login_auth('admin_id', '_admin/');
-Auth::check_pass_reset_token('admins');
+Auth::check_login_auth('support_id', '_sup/');
+Auth::check_pass_reset_token('supports');
 
 ?>
 
@@ -52,7 +52,7 @@ Auth::check_pass_reset_token('admins');
             </div>
         </form>
         <div class="flex mt-3 gap-x-2 justify-center items-center text-sm">
-            <a href="?vs=_admin" class="text-violet-700 hover:underline hover:text-blue-600">Back to login</a>
+            <a href="?vs=_sup" class="text-violet-700 hover:underline hover:text-blue-600">Back to login</a>
         </div>
     </div>
 </div>
@@ -65,7 +65,7 @@ Auth::check_pass_reset_token('admins');
             $('#spinner').show();
 
             $.ajax({
-                url: '?rq=admin_reset_pass',
+                url: '?rq=sup_reset_pass',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',

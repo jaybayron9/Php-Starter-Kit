@@ -3,11 +3,17 @@
         <li>
             <a href="./" class="flex gap-x-2">
                 <img src="assets/storage/defaults/logo.ico" alt="logo" class="h-16 w-16">
-                <p class="font-bold text-lg mt-4">PHPQLJQTL</p>
+                <p class="font-bold text-lg mt-4">PJMT</p>
             </a>
         </li>
         <li class="ml-auto mt-4">
-            <a href="?vs=login" class="border border-violet-800 font-semibold text-[23px] px-3 py-3 rounded-lg text-violet-800 hover:text-white hover:bg-violet-800 transition duration-300">Login</a>
+            <a href="?vs=_admin" class="border border-violet-800 font-semibold text-[23px] px-3 py-3 rounded-lg text-violet-800 hover:text-white hover:bg-violet-800 transition duration-300">Admin</a>
+        </li>
+        <li class="mt-4">
+            <a href="?vs=_sup" class="border border-violet-800 font-semibold text-[23px] px-3 py-3 rounded-lg text-violet-800 hover:text-white hover:bg-violet-800 transition duration-300">Support</a>
+        </li>
+        <li class="mt-4">
+            <a href="?vs=login" class="border border-violet-800 font-semibold text-[23px] px-3 py-3 rounded-lg text-violet-800 hover:text-white hover:bg-violet-800 transition duration-300">User</a>
         </li>
         <li class="mt-1">
             <a href="?vs=register" class="flex gap-x-1 font-semibold text-[23px] px-11 py-3 rounded-lg text-white bg-violet-700 hover:bg-gray-900 transition duration-300">

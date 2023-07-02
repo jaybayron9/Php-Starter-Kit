@@ -70,7 +70,7 @@ class DBConn {
         $stmt->execute(array_values($data));
     }
 
-    public function update($tableName, $data, $whereClause) {
+    public static function update($tableName, $data, $whereClause) {
         $query = "UPDATE $tableName SET ";
         $updateValues = [];
     
@@ -134,7 +134,7 @@ class DBConn {
         }
     }
 
-    public static function alert($status, $message) {
+    public static function alert($status, $message = '') {
         return json_encode([
                     'status' => $status, 
                     'msg' => $message

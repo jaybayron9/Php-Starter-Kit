@@ -15,12 +15,19 @@ return [
         'password' => '',
         'database' => 'cjce',
     ],
+    'oracle'=> [
+        'localhost' => '',
+        'username' => '',
+        'password' => '',
+        'port' => 0,
+        'database' => '',
+    ],
     'smtp' => [
         'from_name' => 'Administrator', 
         'username' => 'tweb65776@gmail.com',
         'password' => 'bgpekesrwlvgrljx',
     ],
     'links' => [
-        'reset_password_url' => 'http://localhost/GitHub/PHPMysqlTailwindJquery/'
+        'reset_password_url' => 'http://localhost/GitHub/PHPMysqlTailwindJquery'
     ]
 ];

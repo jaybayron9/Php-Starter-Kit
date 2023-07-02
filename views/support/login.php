@@ -1,11 +1,11 @@
 <?php 
 
 use Auth\Auth;
-Auth::check_login_auth('admin_id', '_admin/');
+Auth::check_login_auth('support_id', '_sup/');
 
 ?>
 
-<div class="flex justify-center items-center mt-20">
+<div class="flex justify-center items-center my-20">
     <div class="md:w-2/6 w-96">
         <div class="flex justify-center items-center mb-5 gap-x-3">
             <img src="assets/storage/defaults/logo.ico" alt="logo" class="h-14 w-14">
@@ -13,7 +13,7 @@ Auth::check_login_auth('admin_id', '_admin/');
         </div>
         <form id="login-form" class="rounded border border-gray-300 bg-white p-10 ">
             <input type="hidden" name="csrf_token" id="csrf-token" value="<?= $_SESSION['csrf_token'] ?>">
-            <h1 class="text-center text-medium mb-4 font-normal text-gray-900">Welcome Admin!</h1>
+            <h1 class="text-center text-medium mb-4 font-normal text-gray-900">Welcome Support!</h1>
             <div id="alert" hidden class="py-3">
                 <p id="msg" class="border-y border-r border-l-red-600 border-l-4 rounded py-3 px-5 shadow text-red-700 text-[14.5px]">Tsdf</p>
             </div>
@@ -21,16 +21,16 @@ Auth::check_login_auth('admin_id', '_admin/');
                 <div class="mb-2">
                     <label for="email" class="text-[14.5px]">Email Address</label>
                 </div>
-                <input type="email" name="email" id="email" maxlength="50" required placeholder="admin123@example.com"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
+                <input type="email" name="email" id="email" required maxlength="50" placeholder="support123@example.com"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
             </div>
             <div class="mb-6">  
                 <div class="flex">
                     <div class="mb-2">
                         <label for="password" class="text-[14.5px]">Password</label>
                     </div>
-                    <a href="?vs=_admin/forgot_password" class="hover:underline ml-auto text-[14.5px] text-violet-800">I forgot my password</a>
+                    <a href="?vs=_sup/forgot_password" class="hover:underline ml-auto text-[14.5px] text-violet-800">I forgot my password</a>
                 </div>
-                <input type="password" name="password" id="password" required maxlength="50" placeholder="Password" autocomplete="off"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
+                <input type="password" name="password" id="password" maxlength="50" required placeholder="Password" autocomplete="off"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
             </div>
             <div class="text-center my-2">
                 <button type="submit" class="flex items-center justify-center w-full bg-violet-700 text-base text-white hover:bg-blue-500 py-1 px-3 rounded transition duration-200">
@@ -53,17 +53,27 @@ Auth::check_login_auth('admin_id', '_admin/');
             $('#spinner').show();
 
             $.ajax({
-                url: '?rq=admin_sign_in',
+                url: '?rq=sup_sign_in',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function(resp) {
-                    if (resp.status === 'success') {
-                        window.location.href = '?vs=_admin/'
-                    } else if (resp.status === 'error') {
-                        $('#alert').removeAttr('hidden');
-                        $('#msg').html(resp.msg);
-                        $('#email, #password').val('');
+                    if (resp.status == 'success') {
+                        $('#alert').attr('hidden', '');
+                        window.location.href = '?vs=_sup/';
+                    } else if (resp.status == 'error') {
+                        if (resp.msg !== '') {
+                            $('#alert').removeAttr('hidden');
+                            $('#msg').html(resp.msg);
+                        } else {
+                            $('#alert').attr('hidden', '');
+                        }
+
+                        if (resp.empty !== '') {
+                            $('#msg').html(resp.empty);
+                        }else {
+                            $('#msg').html(resp.incorrect);
+                        }
                     }
 
                     $('#submit-txt').removeAttr('hidden');

@@ -23,8 +23,8 @@ class Database {
 
         $this->conn->select_db($this->get_database_name());
         
-        self::createTable();
-        self::createData();
+        // self::createTable();
+        // self::createData();
     }
 
     public static function get_database_name() {
@@ -36,7 +36,7 @@ class Database {
 
         $sql = "CREATE DATABASE $databaseName";
         if ($this->conn->query($sql) === TRUE) {
-            echo "Database created successfully with stating users data";
+            echo "Database created successfully with starting users data";
         } 
     }
     
@@ -46,6 +46,7 @@ class Database {
             name varchar(255) DEFAULT NULL,
             phone varchar(100) DEFAULT NULL,
             email varchar(255) DEFAULT NULL UNIQUE,
+            email_verify_token varchar(100) DEFAULT NULL,
             email_verified_at DATETIME DEFAULT NULL,
             password varchar(255) NOT NULL,
             password_reset_token varchar(100) DEFAULT NULL,
@@ -85,9 +86,9 @@ class Database {
 
     public function createData(){
         try {
-            $a = $this->conn->query($this->dataQuery('admins', 'Admin One', 'admin@example.com'));
-            $s = $this->conn->query($this->dataQuery('supports', 'Support One', 'supportone@example.com'));
-            $u = $this->conn->query($this->dataQuery('users', 'User One', 'userone@example.com'));
+            $a = $this->conn->query($this->dataQuery('admins', 'Admin One', 'jaybayron400@gmail.com'));
+            $s = $this->conn->query($this->dataQuery('supports', 'Support One', 'jaybayron400@gmail.com'));
+            $u = $this->conn->query($this->dataQuery('users', 'User One', 'jaybayron400@gmail.com'));
 
             if ($a && $s && $u !== true) {
                 echo "Error creating table: " . $this->conn->error;
