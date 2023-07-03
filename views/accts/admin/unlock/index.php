@@ -1,7 +1,4 @@
-<?php include view('user', 'head.auth') ?>
-
-<?php include view('user/navbars', 'topbar') ?>
-<?php include view('user/navbars', 'sidebar') ?>
+<?php include view('accts/admin', 'navbars') ?>
 
 <main id="main-content" class="relative h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
     <div class="px-4 my-[80px]">
@@ -11,9 +8,9 @@
                     <img src="assets/storage/svg/maintenance.svg" alt="maintenance image">
                 </div>
                 <div class="text-center xl:max-w-4xl">
-                <h1 class="mb-3 text-2xl font-bold leading-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white">
-                        Welcome Developer (<span class="text-rose-500">User</span>)
-                    </h1>                     
+                    <h1 class="mb-3 text-2xl font-bold leading-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white">
+                        Welcome Developer (<span class="text-rose-500">Admin</span>)
+                    </h1>                
                 </div>
             </div>
         </div>

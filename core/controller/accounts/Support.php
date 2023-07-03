@@ -7,39 +7,43 @@ use DBConn\DBConn;
 
 class Support extends DBConn {
     public function sign_in() {
-        $msg = 'Incorrect email or password';
+        $config = require('config.php'); 
+        extract($config['recaptchav3']);
 
-        Auth::check_csrf($_POST['csrf_token']);
+        $error[] = Auth::check_csrf($_POST['csrf_token']) ? 'Error: 400 - Bad Request' : ''; 
+        $error[] = Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY) ? 'You are a robot.' : '';
+        $error[] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : null;
+        $error[] = Auth::check_email($_POST) ? 'Incorrect email or password' : null;
 
-        $error[] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : '';
-        $error[] = Auth::check_email($_POST) ? $msg : '';
+        if (!empty(array_filter($error))) {
+            return json_encode([
+                'status' => 'error',
+                'msg' => 'Incorrect email or password',
+                'robot' => $error[1], 
+                'empty' => $error[2]
+            ]);
+        }
 
-        if (empty(array_filter($error))) {
-            $supTbl = parent::select('supports','*', [], null, 1);
-
-            foreach ($supTbl as $d) {
-                $email = $_POST['email'] === $d['email'];
-                $pass = password_verify($_POST['password'], $d['password']);
-
-                if ($email && $pass) {
-                    $_SESSION['support_id'] = $d['id'];
-                    return parent::alert('success', '');
-                }
-
-                return parent::alert('error', $msg);
+        $adminTbl = parent::select('supports','*', [], null, 1);
+    
+        foreach ($adminTbl as $d) {
+            if ($_POST['email'] === $d['email'] && password_verify($_POST['password'], $d['password'])) {
+                $_SESSION['support_id'] = $d['id'];
+                return parent::alert('success', '');
             }
-        } 
+        }
 
-        return json_encode([
-            'status' => 'error',
-            'msg' => $msg,
-            'empty' => $error[0],
-            'incorrect' => $error[1]
-        ]);
+        return parent::alert('error', $msg);
     }
 
     public function pass_request() { 
-        Auth::check_csrf($_POST['csrf_token']);
+        $config = require('config.php');
+        extract($config['recaptchav3']);
+
+        Auth::check_csrf($_POST['csrf_token']); 
+        if (Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY)) {
+            return parent::alert('error', 'You are a robot.');
+        } 
 
         if (!Auth::check_empty($_POST)) {
             $email = parent::select('supports', '*', ['email' => $_POST['email']], null, 1);
@@ -53,10 +57,10 @@ class Support extends DBConn {
                 $config = require('config.php'); 
                 extract($config['links']);
 
-                $url = $reset_password_url . '/?vs=_sup/reset_password&token=' . $token;
+                $url = $base_url . '/?vs=_sup/reset_password&token=' . $token;
 
                 $mailer = new EMailer();
-                $send = $mailer->send($_POST['email'], 'Support Password Reset Link', $mailer->temp_body($url));
+                $send = $mailer->send($_POST['email'], 'Support Password Reset Link', $mailer->forgot_temp($url));
 
                 if ($send) {
                     return parent::alert('success', 'We have emailed your password reset link!');

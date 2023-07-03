@@ -1,10 +1,12 @@
-<?php 
+<?php
 
 use Auth\Auth;
 
 Auth::check_login_auth('support_id', '_sup/');
-
 ?>
+
+<!-- Google Recaptcha -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv"></script>
 
 <div class="flex justify-center items-center mt-20">
     <div class="md:w-2/6 w-96">
@@ -23,7 +25,7 @@ Auth::check_login_auth('support_id', '_sup/');
                 <div class="mb-2">
                     <label for="email" class="text-[14.5px]">Email Address</label>
                 </div>
-                <input type="email" name="email" id="email" maxlength="50" required placeholder="support123@example.com"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
+                <input type="email" name="email" id="email" maxlength="50" required placeholder="support123@example.com" class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
             </div>
             <div class="text-center my-2">
                 <button type="submit" class="flex items-center justify-center w-full bg-violet-600 text-base text-white hover:bg-blue-500 py-1 px-3 rounded transition duration-200">
@@ -32,7 +34,7 @@ Auth::check_login_auth('support_id', '_sup/');
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                </button> 
+                </button>
             </div>
         </form>
         <div class="flex mt-3 gap-x-2 justify-center items-center text-sm">
@@ -48,26 +50,36 @@ Auth::check_login_auth('support_id', '_sup/');
             $('#submit-txt').attr('hidden', '');
             $('#spinner').show();
 
-            $.ajax({
-                url: '?rq=sup_send_pass_req',
-                type: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(resp) {
-                    if (resp.status == 'success') {
-                        $('#alert').removeAttr('hidden');
-                        $('#msg').removeClass('border-l-red-600 text-red-700');
-                        $('#msg').addClass('border-l-green-500 text-green-600')
-                    } else if (resp.status == 'error') {
-                        $('#alert').removeAttr('hidden');
-                        $('#email').val('');
-                    }
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv', {
+                    action: 'submit'
+                }).then(function(token) { 
+                    $.ajax({
+                        url: '?rq=sup_send_pass_req',
+                        type: 'POST',
+                        data: {
+                            recaptcha: token,
+                            csrf_token: $('#csrf-token').val(),
+                            email: $('#email').val(),
+                        },
+                        dataType: 'json',
+                        success: function(resp) {
+                            if (resp.status == 'success') {
+                                $('#alert').removeAttr('hidden');
+                                $('#msg').removeClass('border-l-red-600 text-red-700');
+                                $('#msg').addClass('border-l-green-500 text-green-600')
+                            } else if (resp.status == 'error') {
+                                $('#alert').removeAttr('hidden');
+                                $('#email').val('');
+                            }
 
-                    $('#msg').html(resp.msg);
-                    $('#submit-txt').removeAttr('hidden');
-                    $('#spinner').hide();
-                }
-            });
+                            $('#msg').html(resp.msg);
+                            $('#submit-txt').removeAttr('hidden');
+                            $('#spinner').hide();
+                        }
+                    }); 
+                });
+            }); 
         });
     });
 </script>

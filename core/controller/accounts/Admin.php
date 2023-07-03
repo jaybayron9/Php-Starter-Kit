@@ -7,22 +7,27 @@ use DBConn\DBConn;
 
 class Admin extends DBConn {
     public function sign_in() {
-        Auth::check_csrf($_POST['csrf_token']);
-        $error['field'] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : null;
-        $error['email'] = Auth::check_email($_POST) ? 'Invalid email address' : null;
+        $config = require('config.php'); 
+        extract($config['recaptchav3']);
 
-        $msg = 'Incorrect email or password';
-        if (!empty($error['field']) || !empty($error['email'])) {
-            return parent::alert('error', $msg);
+        $error[] = Auth::check_csrf($_POST['csrf_token']) ? 'Error: 400 - Bad Request' : ''; 
+        $error[] = Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY) ? 'You are a robot.' : '';
+        $error[] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : null;
+        $error[] = Auth::check_email($_POST) ? 'Incorrect email or password' : null;
+
+        if (!empty(array_filter($error))) {
+            return json_encode([
+                'status' => 'error',
+                'msg' => 'Incorrect email or password',
+                'robot' => $error[1], 
+                'empty' => $error[2]
+            ]);
         }
 
         $adminTbl = parent::select('admins','*', [], null, 1);
     
         foreach ($adminTbl as $d) {
-            $email = $_POST['email'] === $d['email'];
-            $pass = password_verify($_POST['password'], $d['password']);
-            
-            if ($email && $pass) {
+            if ($_POST['email'] === $d['email'] && password_verify($_POST['password'], $d['password'])) {
                 $_SESSION['admin_id'] = $d['id'];
                 return parent::alert('success', '');
             }
@@ -32,7 +37,13 @@ class Admin extends DBConn {
     }
 
     public function pass_request() { 
-        Auth::check_csrf($_POST['csrf_token']);
+        $config = require('config.php');
+        extract($config['recaptchav3']);
+
+        Auth::check_csrf($_POST['csrf_token']); 
+        if (Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY)) {
+            return parent::alert('error', 'You are a robot.');
+        } 
 
         if (!Auth::check_empty($_POST)) {
             $email = parent::select('admins', '*', ['email' => $_POST['email']], null, 1);
@@ -46,7 +57,7 @@ class Admin extends DBConn {
                 $config = require('config.php'); 
                 extract($config['links']);
 
-                $url = $reset_password_url . '/?vs=_admin/reset_password&token=' . $token;
+                $url = $base_url . '/?vs=_admin/reset_password&token=' . $token;
 
                 $mailer = new EMailer();
                 $send = $mailer->send($_POST['email'], 'Admin Password Reset Link', $mailer->forgot_temp($url));

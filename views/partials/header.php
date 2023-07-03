@@ -9,7 +9,7 @@
 
     <!-- System Logo -->
     <link rel="shortcut icon" href="assets/storage/defaults/logo.ico" type="image/x-icon">
-    <!-- Tailwind stlying -->
+    <!-- Tailwind Stlying -->
     <link rel="stylesheet" href="assets/css/output.css">
     <!-- JQuery -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>

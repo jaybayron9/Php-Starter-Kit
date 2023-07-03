@@ -1,9 +1,13 @@
-<?php 
+<?php
 
 use Auth\Auth;
+
 Auth::check_login_auth('support_id', '_sup/');
 
 ?>
+
+<!-- Google Recaptcha -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv"></script>
 
 <div class="flex justify-center items-center my-20">
     <div class="md:w-2/6 w-96">
@@ -21,16 +25,16 @@ Auth::check_login_auth('support_id', '_sup/');
                 <div class="mb-2">
                     <label for="email" class="text-[14.5px]">Email Address</label>
                 </div>
-                <input type="email" name="email" id="email" required maxlength="50" placeholder="support123@example.com"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
+                <input type="email" name="email" id="email" required maxlength="50" placeholder="support123@example.com" class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
             </div>
-            <div class="mb-6">  
+            <div class="mb-6">
                 <div class="flex">
                     <div class="mb-2">
                         <label for="password" class="text-[14.5px]">Password</label>
                     </div>
                     <a href="?vs=_sup/forgot_password" class="hover:underline ml-auto text-[14.5px] text-violet-800">I forgot my password</a>
                 </div>
-                <input type="password" name="password" id="password" maxlength="50" required placeholder="Password" autocomplete="off"  class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
+                <input type="password" name="password" id="password" maxlength="50" required placeholder="Password" autocomplete="off" class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
             </div>
             <div class="text-center my-2">
                 <button type="submit" class="flex items-center justify-center w-full bg-violet-700 text-base text-white hover:bg-blue-500 py-1 px-3 rounded transition duration-200">
@@ -52,34 +56,35 @@ Auth::check_login_auth('support_id', '_sup/');
             $('#submit-txt').attr('hidden', '');
             $('#spinner').show();
 
-            $.ajax({
-                url: '?rq=sup_sign_in',
-                type: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(resp) {
-                    if (resp.status == 'success') {
-                        $('#alert').attr('hidden', '');
-                        window.location.href = '?vs=_sup/';
-                    } else if (resp.status == 'error') {
-                        if (resp.msg !== '') {
-                            $('#alert').removeAttr('hidden');
-                            $('#msg').html(resp.msg);
-                        } else {
-                            $('#alert').attr('hidden', '');
-                        }
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv', {
+                    action: 'submit'
+                }).then(function(token) { 
+                    $.ajax({
+                        url: '?rq=sup_sign_in',
+                        type: 'POST',
+                        data: {
+                            recaptcha: token,
+                            csrf_token: $('#csrf-token').val(),
+                            email: $('#email').val(),
+                            password: $('#password').val(),
+                        },
+                        dataType: 'json',
+                        success: function(resp) {
+                            if (resp.status === 'success') {
+                                window.location.href = '?vs=_sup/'
+                            } else if (resp.status === 'error') {
+                                $('#alert').removeAttr('hidden');
+                                $('#msg').html(resp.msg);
+                                $('#email, #password').val('');
+                            }
 
-                        if (resp.empty !== '') {
-                            $('#msg').html(resp.empty);
-                        }else {
-                            $('#msg').html(resp.incorrect);
+                            $('#submit-txt').removeAttr('hidden');
+                            $('#spinner').hide();
                         }
-                    }
-
-                    $('#submit-txt').removeAttr('hidden');
-                    $('#spinner').hide();
-                }
-            })
+                    }) 
+                });
+            }); 
         });
     });
 </script>

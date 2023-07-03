@@ -1,9 +1,10 @@
-<?php 
-
+<?php  
 use Auth\Auth;
-Auth::check_login_auth('admin_id', '_admin/');
-
+Auth::check_login_auth('admin_id', '_admin/'); 
 ?>
+
+<!-- Google Recaptcha -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv"></script>
 
 <div class="flex justify-center items-center mt-20">
     <div class="md:w-2/6 w-96">
@@ -52,24 +53,35 @@ Auth::check_login_auth('admin_id', '_admin/');
             $('#submit-txt').attr('hidden', '');
             $('#spinner').show();
 
-            $.ajax({
-                url: '?rq=admin_sign_in',
-                type: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(resp) {
-                    if (resp.status === 'success') {
-                        window.location.href = '?vs=_admin/'
-                    } else if (resp.status === 'error') {
-                        $('#alert').removeAttr('hidden');
-                        $('#msg').html(resp.msg);
-                        $('#email, #password').val('');
-                    }
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv', {
+                    action: 'submit'
+                }).then(function(token) {
+                    $.ajax({
+                        url: '?rq=admin_sign_in',
+                        type: 'POST',
+                        data: {
+                            recaptcha: token,
+                            csrf_token: $('#csrf-token').val(),
+                            email: $('#email').val(),
+                            password: $('#password').val(),
+                        },
+                        dataType: 'json',
+                        success: function(resp) {
+                            if (resp.status === 'success') {
+                                window.location.href = '?vs=_admin/'
+                            } else if (resp.status === 'error') {
+                                $('#alert').removeAttr('hidden');
+                                $('#msg').html(resp.msg);
+                                $('#email, #password').val('');
+                            }
 
-                    $('#submit-txt').removeAttr('hidden');
-                    $('#spinner').hide();
-                }
-            })
+                            $('#submit-txt').removeAttr('hidden');
+                            $('#spinner').hide();
+                        }
+                    })
+                });
+            });
         });
     });
 </script>

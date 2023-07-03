@@ -17,7 +17,7 @@ class Auth {
         }
     }
 
-    public static function check_user_auth($s, $d, $c = '', $tb = 'users', $d2 = 'user', $f = 'verified-email') {
+    public static function check_user_auth($s, $d, $c = '', $tb = 'users', $d2 = 'accts/user', $f = 'verified-email') {
         if (isset($_COOKIE[$c])) {
             $_SESSION[$s] = $_COOKIE[$c];
         }
@@ -73,7 +73,7 @@ class Auth {
         }
             
         http_response_code(403);
-        include view('auth', '403');
+        include view('errors', '403');
         exit;
     }
 
@@ -120,5 +120,28 @@ class Auth {
 
     public static function pass_length($v, $l = 0) {
         return strlen($v) > $l ? false : true;
+    }
+
+    public static function reCaptchaV3($post, $key) {
+        $response = json_decode(file_get_contents(
+                'https://www.google.com/recaptcha/api/siteverify', 
+                false, 
+                stream_context_create([ 
+                    'http' => [
+                        'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                        'method' => 'POST',
+                        'content' => http_build_query([
+                                'secret' => $key,
+                                'response' => $post
+                            ]),
+                    ],
+                ])
+            )
+        );
+
+        if ($response->success) {
+            return false;
+        } 
+        return true;
     }
 }

@@ -1,3 +1,6 @@
+<!-- Google Recaptcha -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv"></script>
+
 <div class="flex justify-center items-center mt-[40px]">
     <div class="md:w-2/6 w-96">
         <div class="flex justify-center items-center mb-5 gap-x-3">
@@ -17,23 +20,23 @@
                 <input type="text" name="email" id="email" maxlength="50" placeholder="user123@example.com" class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
                 <span id="email-msg" class="text-sm text-red-700"></span>
             </div>
-            <div class="mb-4">  
+            <div class="mb-4">
                 <div class="mb-2">
                     <label for="password" class="text-[14.5px]">Password</label>
                 </div>
                 <input type="password" name="password" id="password" maxlength="50" placeholder="Your password" autocomplete="off" class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
                 <span id="pass-msg" class="text-sm text-red-700"></span>
             </div>
-            <div class="mb-3">  
+            <div class="mb-3">
                 <div class="mb-2">
                     <label for="pasword-confirmation" class="text-[14.5px]">Confirm Password</label>
                 </div>
-                <input type="password" name="password_confirmation" id="pasword-confirmation" maxlength="50" placeholder="Confirm your password" autocomplete="off" class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
+                <input type="password" name="password_confirmation" id="password-confirmation" maxlength="50" placeholder="Confirm your password" autocomplete="off" class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
                 <span id="confirm-pass-msg" class="text-sm text-red-700"></span>
             </div>
             <div class="flex items-center mb-5">
                 <input id="agree" type="checkbox" name="agree" required class="w-4 h-4">
-                <label for="agree" class="ml-2 text-sm text-gray-900 select-none">I've read and agree to the <a href=""  class="text-violet-700">terms and service.</a></label>
+                <label for="agree" class="ml-2 text-sm text-gray-900 select-none">I've read and agree to the <a href="" class="text-violet-700">terms and service.</a></label>
             </div>
             <div class="text-center my-2">
                 <button type="submit" class="flex items-center justify-center w-full bg-violet-700 text-base text-white hover:bg-blue-500 py-1 px-3 rounded transition duration-200">
@@ -62,7 +65,8 @@
                 type: 'POST',
                 data: {
                     email: email
-                }, success: function(resp) {
+                },
+                success: function(resp) {
                     $('#email-msg').text(resp);
                 }
             });
@@ -73,34 +77,45 @@
             $('#submit-txt').attr('hidden', '');
             $('#spinner').show();
 
-            $.ajax({
-                url: '?rq=user_register',
-                type: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(resp) { 
-                    if (resp.status == 'success') {
-                        $('#alert').attr('hidden', '');
-                        window.location.href = '?vs=_/';
-                    } else if (resp.status == 'error') {
-                        if (resp.msg !== '') {
-                            $('#alert').removeAttr('hidden');
-                            $('#msg').html(resp.msg);
-                        } else {
-                            $('#alert').attr('hidden', '');
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv', {
+                    action: 'submit'
+                }).then(function(token) {
+                    $.ajax({
+                        url: '?rq=user_register',
+                        type: 'POST',
+                        data: {
+                            recaptcha: token,
+                            csrf_token: $('#csrf-token').val(),
+                            email: $('#email').val(),
+                            password: $('#password').val(),
+                            password_confirmation: $('#password-confirmation').val()
+                        },
+                        dataType: 'json',
+                        success: function(resp) {
+                            if (resp.status == 'success') {
+                                $('#alert').attr('hidden', '');
+                                window.location.href = '?vs=_/';
+                            } else if (resp.status == 'error') {
+                                if (resp.msg !== '') {
+                                    $('#alert').removeAttr('hidden');
+                                    $('#msg').html(resp.msg);
+                                } else {
+                                    $('#alert').attr('hidden', '');
+                                }
+
+                                $('#email-msg').text(resp.email_format);
+                                $('#email-msg').text(resp.similar_email);
+                                $('#pass-msg').text(resp.password_length);
+                                $('#confirm-pass-msg').text(resp.pass_confirm);
+                            }
+
+                            $('#submit-txt').removeAttr('hidden');
+                            $('#spinner').hide();
                         }
-
-                        $('#email-msg').text(resp.email_format);
-                        $('#email-msg').text(resp.similar_email);
-                        $('#pass-msg').text(resp.password_length);
-                        $('#confirm-pass-msg').text(resp.pass_confirm);
-                    }
-
-                    $('#submit-txt').removeAttr('hidden');
-                    $('#spinner').hide();
-                    console.log(resp);
-                }
-            })
+                    })
+                });
+            });
         });
     });
 </script>

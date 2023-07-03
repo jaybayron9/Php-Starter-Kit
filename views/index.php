@@ -1,1 +1,1 @@
-<?php include(view('partial', 'navbar')) ?>
+<?php include(view('partials', 'navbar')) ?>
