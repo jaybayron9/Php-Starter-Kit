@@ -17,7 +17,7 @@ class Auth {
         }
     }
 
-    public static function check_user_auth($s, $d, $c = '', $tb = 'users', $d2 = 'accts/user', $f = 'verified-email') {
+    public static function check_user_auth($s, $d, $c = '', $tb = 'users', $d2 = 'accts/user/unlock', $f = 'verified-email') {
         if (isset($_COOKIE[$c])) {
             $_SESSION[$s] = $_COOKIE[$c];
         }
@@ -50,8 +50,8 @@ class Auth {
 
         if (count($qry) > 0) {
             include view("$a/navbars", 'topbar');
-            include view($a, 'verify-email');
-            include view('partial', 'footer');
+            include view("$a/lock", 'verify-email');
+            include view('partials', 'footer');
             exit;
         }
         return false;

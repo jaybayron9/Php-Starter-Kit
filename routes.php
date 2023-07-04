@@ -10,21 +10,21 @@ return [
     ''      => view(), 
 
     // Admin Authorization
-    '_admin'                   => view('accts/admin', 'login'),
-    '_admin/forgot_password'   => view('accts/admin', 'forgot-pass'),
-    '_admin/reset_password'    => view('accts/admin', 'reset-pass'),
+    '_admin'                   => view('accts/admin/lock', 'login'),
+    '_admin/forgot_password'   => view('accts/admin/lock', 'forgot-pass'),
+    '_admin/reset_password'    => view('accts/admin/lock', 'reset-pass'),
     '_admin/'                  => view('accts/admin/unlock'),
-    '_admin/profile'           => view('accts/admin/unlock/privacy', 'profile'),
+    '_admin/profile'           => view('accts/admin/unlock/settings', 'profile'),
 
-    '_sup'                     => view('accts/support', 'login'),
-    '_sup/forgot_password'     => view('accts/support', 'forgot-pass'),
-    '_sup/reset_password'      => view('accts/support', 'reset-pass'),
+    '_sup'                     => view('accts/support/lock', 'login'),
+    '_sup/forgot_password'     => view('accts/support/lock', 'forgot-pass'),
+    '_sup/reset_password'      => view('accts/support/lock', 'reset-pass'),
     '_sup/'                    => view('accts/support/unlock'),
 
     // Users Authorization
-    'login'                    => view('accts/user', 'login'),
-    'register'                 => view('accts/user', 'register'),
-    'forgot_password'          => view('accts/user', 'forgot-pass'),
-    'reset_password'           => view('accts/user', 'reset-pass'),
+    'login'                    => view('accts/user/lock', 'login'),
+    'register'                 => view('accts/user/lock', 'register'),
+    'forgot_password'          => view('accts/user/lock', 'forgot-pass'),
+    'reset_password'           => view('accts/user/lock', 'reset-pass'),
     '_/'                       => view('accts/user/unlock'),
 ];

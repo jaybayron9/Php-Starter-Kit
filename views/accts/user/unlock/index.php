@@ -1,7 +1,7 @@
-<?php include view('accts/user', 'head.auth') ?>
+<?php include view('accts/user/unlock', 'head.auth') ?>
 
-<?php include view('accts/user/navbars', 'topbar') ?>
-<?php include view('accts/user/navbars', 'sidebar') ?>
+<?php include view('accts/user/unlock/navbars', 'topbar') ?>
+<?php include view('accts/user/unlock/navbars', 'sidebar') ?>
 
 <main id="main-content" class="relative h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
     <div class="px-4 my-[80px]">

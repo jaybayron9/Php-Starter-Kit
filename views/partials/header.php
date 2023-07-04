@@ -10,9 +10,17 @@
     <!-- System Logo -->
     <link rel="shortcut icon" href="assets/storage/defaults/logo.ico" type="image/x-icon">
     <!-- Tailwind Stlying -->
-    <link rel="stylesheet" href="assets/css/output.css">
+    <link rel="stylesheet" href="assets/tailwind/output.css">
     <!-- JQuery -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <!-- Pace.js | Page Pre-loader -->
+    <link rel="stylesheet" href="assets/css/preloader.css"> 
+    <script src="assets/js/preloader.js"></script>
+    <script type="text/javascript"> 
+        $(document).ajaxStart(function() { 
+            Pace.restart();
+        });
+    </script>
 </head>
 
 <body class="bg-[#F1F5F9]">

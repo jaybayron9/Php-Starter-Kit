@@ -1,10 +1,22 @@
-<nav class="px-8 py-10">
-    <ul class="flex mx-auto gap-x-5">
+<nav class="sticky top-0 px-8 py-10">
+    <ul class="flex mx-auto gap-x-5 text-center">
         <li>
-            <a href="./" class="flex gap-x-2">
+            <a href="#one" class="flex gap-x-2">
                 <img src="assets/storage/defaults/logo.ico" alt="logo" class="h-16 w-16">
                 <p class="font-bold text-lg mt-4">PJMT</p>
             </a>
+        </li>
+        <li class="ml-10 mt-3">
+            <a href="#one" class="font-light text-[23px] text-violet-800">One</a>
+        </li>
+        <li class="mt-3">
+            <a href="#two" class="font-light text-[23px] text-violet-800">Two</a>
+        </li>
+        <li class="mt-3">
+            <a href="#three" class="font-light text-[23px] text-violet-800">Three</a>
+        </li>
+        <li class="mt-3">
+            <a href="#four" class="font-light text-[23px] text-violet-800">Four</a>
         </li>
         <li class="ml-auto mt-4">
             <a href="?vs=_admin" class="border border-violet-800 font-semibold text-[23px] px-3 py-3 rounded-lg text-violet-800 hover:text-white hover:bg-violet-800 transition duration-300">Admin</a>
@@ -24,4 +36,4 @@
             </a>
         </li>
     </ul>
-</nav>
+</nav> 

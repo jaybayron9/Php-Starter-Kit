@@ -1,12 +1,13 @@
 {
   "scripts": {
-    "styling": "npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch"
+    "styling": "npx tailwindcss -i ./assets/tailwind/input.css -o ./assets/tailwind/output.css --watch"
   },
   "devDependencies": {
     "tailwindcss": "^3.3.2"
   },
   "dependencies": {
     "flowbite": "^1.6.6",
-    "jquery": "^3.7.0"
+    "jquery": "^3.7.0",
+    "smooth-scroll": "^16.1.3"
   }
 }

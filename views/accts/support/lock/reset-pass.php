@@ -2,8 +2,8 @@
 
 use Auth\Auth;
 
-Auth::check_login_auth('user_id', '_/');
-Auth::check_pass_reset_token('users');
+Auth::check_login_auth('support_id', '_sup/');
+Auth::check_pass_reset_token('supports');
 
 ?>
 
@@ -11,7 +11,7 @@ Auth::check_pass_reset_token('users');
     <div class="md:w-2/6 w-96">
         <div class="flex justify-center items-center mb-5 gap-x-3">
             <img src="assets/storage/defaults/logo.ico" alt="logo" class="h-14 w-14">
-            <a href="./" class="font-bold text-1xl mt-1 capitalize">PJMT</a>
+            <a href="./" class="font-bold text-1xl mt-1 capitalize">SUPPORT</a>
         </div>
         <form id="form" class="rounded border border-gray-300 bg-white p-10 ">
             <input type="hidden" name="csrf_token" id="csrf-token" value="<?= $_SESSION['csrf_token'] ?>">
@@ -52,7 +52,7 @@ Auth::check_pass_reset_token('users');
             </div>
         </form>
         <div class="flex mt-3 gap-x-2 justify-center items-center text-sm">
-            <a href="?vs=login" class="text-violet-700 hover:underline hover:text-blue-600">Back to login</a>
+            <a href="?vs=_sup" class="text-violet-700 hover:underline hover:text-blue-600">Back to login</a>
         </div>
     </div>
 </div>
@@ -65,7 +65,7 @@ Auth::check_pass_reset_token('users');
             $('#spinner').show();
 
             $.ajax({
-                url: '?rq=user_reset_password',
+                url: '?rq=sup_reset_pass',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
