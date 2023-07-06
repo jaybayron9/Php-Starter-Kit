@@ -3,7 +3,7 @@
 <?php include view('accts/admin/unlock/navbars', 'topbar') ?>
 <?php include view('accts/admin/unlock/navbars', 'sidebar') ?>
 
-<main id="main-content" class="relative h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
+<main id="main-content" class="relative h-full overflow-y-auto lg:ml-64 dark:bg-gray-900">
     <div class="px-4 my-[80px]">
         <div class="grid gap-4 xl:grid-cols-2 2xl:grid-cols-3">
             <div class="md:col-span-3 flex flex-col justify-center items-center px-6 mx-auto xl:px-0 dark:bg-gray-900">

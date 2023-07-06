@@ -49,8 +49,8 @@ class Auth {
         );
 
         if (count($qry) > 0) {
-            include view("$a/navbars", 'topbar');
-            include view("$a/lock", 'verify-email');
+            include view("accts/$a/unlock/navbars", 'topbar');
+            include view("accts/$a/lock", 'verify-email');
             include view('partials', 'footer');
             exit;
         }
@@ -87,6 +87,12 @@ class Auth {
         exit;
     }    
 
+    // Check only one field is empty
+    public static function empty($v) {
+        return empty(trim($v));
+    }
+
+    // Check all fields are empty
     public static function check_empty($d = []) {
         foreach ($d as $k => $v) {
             $v = trim($v);
@@ -97,6 +103,12 @@ class Auth {
         }
         return false;
     } 
+
+    // Check currect password of client
+    public static function compare_password($t, $id, $v) {
+        $d = DBConn::select($t, '*', ['id' => $id], null, 1); 
+        return password_verify($v, $d[0]['password']) ? false : true;
+    }
 
     public static function check_email($v) {
         return !filter_var($v['email'], FILTER_VALIDATE_EMAIL);
@@ -111,6 +123,7 @@ class Auth {
         return false;
     }
 
+    // Check 2 value is equal
     public static function confirm_password($n, $c) {
         if ($n !== $c) {
             return true;
@@ -118,6 +131,7 @@ class Auth {
         return false;
     }
 
+    // check string length
     public static function pass_length($v, $l = 0) {
         return strlen($v) > $l ? false : true;
     }

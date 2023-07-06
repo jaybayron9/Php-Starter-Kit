@@ -25,7 +25,7 @@ class User extends DBConn {
             ]);
         }
 
-        $userTbl = parent::select('users','id, email, password', [], null, 1);
+        $userTbl = parent::select('users','id, email, password', ['email' => $_POST['email']], null, 1);
 
         foreach ($userTbl as $v) { 
             if ($_POST['email'] === $v['email'] && password_verify($_POST['password'], $v['password'])) {
@@ -56,7 +56,7 @@ class User extends DBConn {
         $error[] = Auth::check_email($_POST) ? 'Invalid email address' : '';
         $error[] = Auth::check_similar_email('users', $_POST['email']) ? 'The email has already been taken.' : '';
         $error[] = Auth::confirm_password($_POST['password'], $_POST['password_confirmation']) ? 'Password do not match' : '';
-        $error[] = Auth::pass_length($_POST['password'], 7) ? 'The password must be between 8 to 96 characters.' : '';
+        $error[] = Auth::pass_length($_POST['password'], 7) ? 'The password must be at least 8 characters.' : '';
 
         if (!empty(array_filter($error))) {
             return json_encode([
@@ -177,5 +177,68 @@ class User extends DBConn {
             return parent::alert('error', 'Email address does not match.');
         }
         return parent::alert('error', 'Please fill out the required fields.');
+    }
+
+    public function update_profile() {
+        $error[] = Auth::check_csrf($_POST['csrf_token']) ? '403 (Forbidden)' : '';
+        $error[] = Auth::empty($_POST['email']) ? 'The email field is required.' : '';
+        $error[] = Auth::empty($_POST['name']) ? 'The name field is required.' : '';
+
+        if (!empty(array_filter($error))) {
+            return json_encode([
+                'status' => 400,
+                'email' => $error[1],
+                'name' => $error[2],
+            ]);
+        }
+
+        DBConn::update('users', [
+            'name' => $_POST['name'],
+            'email' => $_POST['email'],
+        ], "id = '{$_POST['id']}'");
+
+        return parent::resp(200, 'Saved.');
+    }
+
+    public function update_password() {
+        $error[] = Auth::check_csrf($_POST['csrf_token']) ? '403 (Forbidden)' : '';
+        $error[] = Auth::empty($_POST['current_password']) ? 'The current password field is required.' : '';
+        $error[] = Auth::compare_password('users', $_POST['id'], $_POST['current_password']) ? 'The provided password does not match your current password.' : '';
+        $error[] = Auth::empty($_POST['new_password']) ? 'The new password field is required.' : '';
+        $error[] = Auth::pass_length($_POST['new_password'], 7) ? 'The password must be at least 8 characters.' : '';
+        $error[] = Auth::confirm_password($_POST['new_password'], $_POST['confirm_password']) ? 'The password confirmation does not match.' : ''; 
+
+        if (!empty(array_filter($error))) {
+            return json_encode([
+                'status' => 400,
+                'current_password' => $error[1],
+                'old_pass_confirmation' => $error[2],
+                'new_password' => $error[3],
+                'pass_length' => $error[4], 
+                'password_confirmaton' => $error[5]
+            ]);
+        }
+
+        DBConn::update('users', [
+            'password' => password_hash($_POST['new_password'], PASSWORD_BCRYPT),
+        ], "id = '{$_POST['id']}'");
+
+        return parent::resp(200);
+    }
+
+    public function delete_account() {
+        $error[] = Auth::check_csrf($_POST['csrf_token']) ? '403 (Forbidden)' : '';
+        $error[] = Auth::compare_password('users', $_POST['id'], $_POST['password']) ? 'Incorrect password' : '';
+
+        if (!empty(array_filter($error))) {
+            return parent::resp(400, $error[1]);
+        }
+
+        DBConn::delete('users', ['id' => $_POST['id']], 1);
+        
+        unset($_SESSION['user_id']); 
+        session_write_close();
+
+        return parent::resp(200);
     }
 }

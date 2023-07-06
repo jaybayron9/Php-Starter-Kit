@@ -1,7 +1,7 @@
-<?php include view('accts/admin/unlock', 'head.auth') ?>
+<?php include view('accts/support/unlock', 'head.auth') ?>
 
-<?php include view('accts/admin/unlock/navbars', 'topbar') ?>
-<?php include view('accts/admin/unlock/navbars', 'sidebar') ?>
+<?php include view('accts/support/unlock/navbars', 'topbar') ?>
+<?php include view('accts/support/unlock/navbars', 'sidebar') ?>
 
 <main id="main-content" class="relative h-full overflow-y-auto lg:ml-64">
     <div class="px-4 my-[80px]">
@@ -18,19 +18,19 @@
             <div class="mt-5 md:mt-0 col-span-2">
                 <form id="profile-form" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" id="csrf-token" value="<?= $_SESSION['csrf_token'] ?>">
-                    <input type="hidden" name="id" id="id" value="<?= $admin_info[0]['id'] ?>">
+                    <input type="hidden" name="id" id="id" value="<?= $support_info[0]['id'] ?>">
                     <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md">
                         <div class="grid grid-cols-6 gap-6">
                             <!-- Name -->
                             <div class="col-span-6 sm:col-span-4">
                                 <label class="block font-medium text-sm text-gray-700">Name</label>
-                                <input type="text" name="name" id="name" value="<?= $admin_info[0]['name'] ?>" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <input type="text" name="name" id="name" value="<?= $support_info[0]['name'] ?>" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <span id="name-err" class="hidden text-sm text-red-500"></span>
                             </div>
                             <!-- Email -->
                             <div class="col-span-6 sm:col-span-4">
                                 <label class="block font-medium text-sm text-gray-700">Email</label>
-                                <input type="text" name="email" id="email" value="<?= $admin_info[0]['email'] ?>" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <input type="text" name="email" id="email" value="<?= $support_info[0]['email'] ?>" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <span id="email-err" class="text-sm text-red-500"></span>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                 <div class="mt-5 md:mt-0 col-span-2">
                     <form id="password-form">
                         <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-                        <input type="hidden" name="id" value="<?= $admin_info[0]['id'] ?>">
+                        <input type="hidden" name="id" value="<?= $support_info[0]['id'] ?>">
                         <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md">
                             <div class="grid grid-cols-6 gap-6">
                                 <!-- Current Password -->
@@ -114,7 +114,7 @@
             e.preventDefault();
 
             $.ajax({
-                url: '?rq=admin_update_profile',
+                url: '?rq=sup_update_profile',
                 type: 'POST',
                 data: new FormData(this),
                 contentType: false,
@@ -139,7 +139,7 @@
             e.preventDefault();
 
             $.ajax({
-                url: '?rq=admin_update_password',
+                url: '?rq=sup_update_password',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',

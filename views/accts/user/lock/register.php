@@ -104,8 +104,12 @@
                                     $('#alert').attr('hidden', '');
                                 }
 
-                                $('#email-msg').text(resp.email_format);
-                                $('#email-msg').text(resp.similar_email);
+                                if (resp.email_format !== '') {
+                                    $('#email-msg').text(resp.email_format);
+                                } else {
+                                    $('#email-msg').text(resp.similar_email);
+                                }
+                                
                                 $('#pass-msg').text(resp.password_length);
                                 $('#confirm-pass-msg').text(resp.pass_confirm);
                             }

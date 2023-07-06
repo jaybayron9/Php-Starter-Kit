@@ -125,6 +125,27 @@ class DBConn {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }    
 
+    public static function delete($table, $where, $limit = null) {
+        $conditions = [];
+        foreach ($where as $column => $value) {
+            $conditions[] = "$column = :$column";
+        }
+        
+        $query = "DELETE FROM $table WHERE " . implode(' AND ', $conditions);
+        
+        if ($limit !== null) {
+            $query .= " LIMIT $limit";
+        }
+        
+        try {
+            $stmt = self::$conn->prepare($query);
+            $stmt->execute($where);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            echo 'Delete failed: ' . $e->getMessage();
+        }
+    }
+
     public static function DBQuery($query) {
         try {
             $stmt = self::$conn->query($query);
@@ -135,6 +156,13 @@ class DBConn {
     }
 
     public static function alert($status, $message = '') {
+        return json_encode([
+                    'status' => $status, 
+                    'msg' => $message
+                ]);
+    }
+
+    public static function resp($status, $message = '') {
         return json_encode([
                     'status' => $status, 
                     'msg' => $message

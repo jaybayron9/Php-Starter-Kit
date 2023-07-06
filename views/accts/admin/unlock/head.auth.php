@@ -2,6 +2,8 @@
 use DBConn\DBConn;
 use Auth\Auth;
 
+$conn = new DBConn();
+
 Auth::check_user_auth(
     'admin_id', '_admin'
 );
