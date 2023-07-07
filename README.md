@@ -1,4 +1,4 @@
-# PHPMysqlTailwindJquery
+# PHP STARTER PACK
 
 1. Install Node.js:
    - Visit the official Node.js website (https://nodejs.org) and download the latest version of Node.js for your operating system.
