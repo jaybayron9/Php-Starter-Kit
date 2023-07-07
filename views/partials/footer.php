@@ -1,6 +1,7 @@
     <!-- Tailwind JS -->
     <script src="node_modules/flowbite/dist/flowbite.min.js"></script>
     <script src="assets/js/sidebar.js"></script>
+    <script src="node_modules/flowbite/dist/datepicker.js"></script>
     <!-- Button Animation -->
     <script src="assets/js/btn-animation.js"></script>
     <!-- Auto Slide Animaton -->

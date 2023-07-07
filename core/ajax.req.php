@@ -16,8 +16,18 @@ $response = [
     // Admin Settings
     'admin_update_profile'     => ['obj' => new Admin(), 'method' => 'update_profile'],
     'admin_update_password'    => ['obj' => new Admin(), 'method' => 'update_password'],
-    // 
-    'show_support'     => ['obj' => new Data(), 'method' => 'show_support'],
+    // Control Supports
+    'show_support'             => ['obj' => new Data(), 'method' => 'show_support'],
+    'update_support'           => ['obj' => new Data(), 'method' => 'update_support'],
+    'delete_support_acct'      => ['obj' => new Data(), 'method' => 'delete_support'],
+    'add_support'              => ['obj' => new Data(), 'method' => 'add_support'],
+    'delete_supports'          => ['obj' => new Data(), 'method' => 'delete_supports'],
+    // Control Users
+    'show_user'             => ['obj' => new Data(), 'method' => 'show_user'],
+    'update_user'           => ['obj' => new Data(), 'method' => 'update_user'],
+    'delete_user_acct'      => ['obj' => new Data(), 'method' => 'delete_user'],
+    'add_user'              => ['obj' => new Data(), 'method' => 'add_user'],
+    'delete_users'          => ['obj' => new Data(), 'method' => 'delete_users'],
 
     // Support Authorization
     'sup_sign_in'              => ['obj' => new Support(), 'method' => 'sign_in'],
