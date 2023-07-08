@@ -51,6 +51,7 @@ class Database {
             password varchar(255) NOT NULL,
             password_reset_token varchar(100) DEFAULT NULL,
             profile_photo_path varchar(1000) DEFAULT NULL,
+            `access_enabled` tinyint(1) DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
         )";

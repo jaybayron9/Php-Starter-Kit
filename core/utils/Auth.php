@@ -17,6 +17,7 @@ class Auth {
         }
     }
 
+    // Check user account is verifiend and cookie is set
     public static function check_user_auth($s, $d, $c = '', $tb = 'users', $d2 = 'accts/user/unlock', $f = 'verified-email') {
         if (isset($_COOKIE[$c])) {
             $_SESSION[$s] = $_COOKIE[$c];
@@ -38,6 +39,14 @@ class Auth {
         if (!isset($_SESSION[$s])) {
             header("location: ?vs=$d");
         }
+    }
+
+    // Check if the user account has permission to access the account
+    public static function check_user_access($table, $id) {
+        $user = DBConn::select($table, '*', ['id' => $id, 'access_enabled' => '0']);
+        if (count($user) > 0) {
+            self::sign_out();
+        } 
     }
 
     public static function check_email_verified($a, $t, $id) {

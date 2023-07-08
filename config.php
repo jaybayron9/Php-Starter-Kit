@@ -42,6 +42,5 @@ return [
     'recaptchav2' => [
         'SITE_KEY' => '6LdX7-0mAAAAAE8rkS_NAzlHC-yUKQqTL4B0Cl46',
         'SECRET_KEY' => '6LdX7-0mAAAAAAAlCy5HbqQgj6Sz7Tgz3jjtRlqY',
-    ],
-
+    ], 
 ];

@@ -100,3 +100,7 @@ $user_info = DBConn::select('users', '*', [
         </div>
     </div>
 </nav>
+
+<script type="text/javascript">
+    $('title').text('PJMT | User');
+</script>

@@ -3,7 +3,7 @@
 use Auth\Auth;
 use Data\Data;
 use Admin\Admin;
-use Client\User;
+use Client\User; 
 use Support\Support;
 
 $request = !isset($_GET['rq']) ? '' : strtolower($_GET['rq']);
@@ -51,7 +51,10 @@ $response = [
     // User Settings
     'user_update_profile'        => ['obj' => new User(), 'method' => 'update_profile'],
     'user_update_password'       => ['obj' => new User(), 'method' => 'update_password'],
-    'user_delete_account'        => ['obj' => new User(), 'method' => 'delete_account'],
+    'user_delete_account'        => ['obj' => new User(), 'method' => 'delete_account'], 
+
+    // Unset Alert session
+    'unset_alert_session' => ['obj' => new Data(), 'method' => 'unset_alert'],
 ];
 
 HTTPR($request, $response);

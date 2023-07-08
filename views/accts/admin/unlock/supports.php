@@ -7,6 +7,10 @@
 <link href="assets/css/responsive.dataTables.min.css" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/table.css">
 
+<div id="div-alert" hidden class="fixed z-30 top-3 right-4 bg-white border rounded py-2 px-5 shadow text-[14.5px] animate__animated">
+    <p id="alert-msg"></p>
+</div>
+
 <main id="main-content" class="relative h-full overflow-y-auto lg:ml-64 dark:bg-gray-900">
     <div class="px-4 h-full my-[80px]">
         <div class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
@@ -170,6 +174,13 @@
                         <label for="created" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Created</label>
                         <input type="datetime-local" name="created" id="created" disabled class="bg-gray-50 border border-gray-100 text-gray-900 text-sm rounded-lg  block w-full p-2.5">
                     </div>
+                    <div>
+                        <label for="access" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Access</label>
+                        <select name="access" id="access" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <option value="1">Granted</option>
+                            <option value="0">Denied</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="md:mt-0 md:col-span-2">
@@ -252,9 +263,9 @@
         columns: [
             { title: 'name' },
             { title: 'phone' },
-            {  title: 'email' },
+            { title: 'email' },
             { title: 'created' },
-            {  title: '<input type="checkbox" id="selectAll" class="btn focus:outline-none focus:ring-2 focus:ring-indigo-500 duration-150 rounded-md">' },
+            { title: '<input type="checkbox" id="selectAll" class="btn focus:outline-none focus:ring-2 focus:ring-indigo-500 duration-150 rounded-md">' },
             { title: 'actions' },
         ],
         "drawCallback": () => {
@@ -274,6 +285,7 @@
                         $('#phone').val(data.phone);
                         $('#email').val(data.email);
                         $('#created').val(data.created);
+                        $('#access').val(data.access);
                     }
                 })
             });
@@ -295,6 +307,7 @@
 
                         setTimeout(() => {
                             $('#edit-acct-modal').hide();
+                            dialog('border-green-600 text-green-700', 'Updated Successfully');
                         }, 200);
                     }
                 });
@@ -322,6 +335,7 @@
 
                         setTimeout(() => {
                             $('#del-acct-modal').hide();
+                            dialog('border-green-600 text-green-700', 'Deleted Successfully');
                         }, 200);
                     }
                 });
@@ -433,4 +447,10 @@
             }
         });
     }); 
-</script>
+
+    <?php  
+        if (isset($_SESSION['alert'])) {
+            echo "dialog('border-green-600 text-green-700', '". $_SESSION['alert'] ."')";
+        } 
+    ?>
+</script> 

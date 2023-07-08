@@ -93,3 +93,7 @@
         </div>
     </div>
 </nav>
+
+<script type="text/javascript">
+    $('title').text('PJMT | Support');
+</script>

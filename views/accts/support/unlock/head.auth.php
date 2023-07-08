@@ -4,6 +4,9 @@ use Auth\Auth;
 
 Auth::check_user_auth(
     'support_id', '_sup'
+); 
+Auth::check_user_access(
+    'supports', $_SESSION['support_id']
 );
 
 $support_info = DBConn::select('supports', '*', [

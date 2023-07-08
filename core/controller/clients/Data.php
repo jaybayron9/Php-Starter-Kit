@@ -1,8 +1,7 @@
 <?php 
 
 namespace Data;
-use DBConn\DBConn;
-
+use DBConn\DBConn; 
 
 class Data extends DBConn {
     public function show_support() { 
@@ -15,6 +14,7 @@ class Data extends DBConn {
             'phone' => $data[0]['phone'],
             'email' => $data[0]['email'],
             'created' => $data[0]['created_at'],
+            'access' => $data[0]['access_enabled'],
         ]); 
     }
 
@@ -23,6 +23,7 @@ class Data extends DBConn {
             'name' => $_POST['name'],
             'email' => $_POST['email'],
             'phone' => $_POST['phone'],
+            'access_enabled' => $_POST['access'],
         ], "id = '{$_POST['id']}'");
 
         return self::show_support();
@@ -44,6 +45,7 @@ class Data extends DBConn {
             'password' => password_hash($_POST['password'], PASSWORD_BCRYPT), 
         ]);
 
+        $_SESSION['alert'] = 'Suppport added successfully';
         return parent::resp(200);
     }
 
@@ -69,6 +71,7 @@ class Data extends DBConn {
             'phone' => $data[0]['phone'],
             'email' => $data[0]['email'],
             'created' => $data[0]['created_at'],
+            'access' => $data[0]['access_enabled'],
         ]); 
     }
 
@@ -77,6 +80,7 @@ class Data extends DBConn {
             'name' => $_POST['name'],
             'email' => $_POST['email'],
             'phone' => $_POST['phone'],
+            'access_enabled' => $_POST['access'],
         ], "id = '{$_POST['id']}'");
 
         return self::show_user();
@@ -111,5 +115,9 @@ class Data extends DBConn {
         }
 
         return parent::alert(200);
+    }
+
+    public function unset_alert() {
+        unset($_SESSION['alert']);
     }
 }
