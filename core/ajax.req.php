@@ -3,12 +3,14 @@
 use Auth\Auth;
 use Data\Data;
 use Admin\Admin;
-use Client\User; 
+use Client\User;
+use DBConn\DBConn;
 use Support\Support;
 
 $request = !isset($_GET['rq']) ? '' : strtolower($_GET['rq']);
 
 $response = [
+    'backup_database' => ['obj' => new DBConn(), 'method' => 'backupDatabase'],
     // Admin Authorization
     'admin_sign_in'            => ['obj' => new Admin(), 'method' => 'sign_in'],
     'admin_send_pass_req'      => ['obj' => new Admin(), 'method' => 'pass_request'],

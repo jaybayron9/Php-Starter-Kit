@@ -24,7 +24,7 @@ class Data extends DBConn {
             'email' => $_POST['email'],
             'phone' => $_POST['phone'],
             'access_enabled' => $_POST['access'],
-        ], "id = '{$_POST['id']}'");
+        ], "id = '{$_POST['id']}'"); 
 
         return self::show_support();
     }
@@ -92,18 +92,7 @@ class Data extends DBConn {
             'status' => 200,
             'id' => $_POST['id']
         ]);
-    }
-
-    public function add_user() { 
-        parent::insert('users', [
-            'name' => $_POST['name'],
-            'phone' => $_POST['phone'],
-            'email' => $_POST['email'],
-            'password' => password_hash($_POST['password'], PASSWORD_BCRYPT), 
-        ]);
-
-        return parent::resp(200);
-    }
+    } 
 
     public function delete_users() { 
         if (empty($_POST['data']) || empty($_POST['data'][0])) {
@@ -119,5 +108,6 @@ class Data extends DBConn {
 
     public function unset_alert() {
         unset($_SESSION['alert']);
+        unset($_SESSION['access_denied']);
     }
 }

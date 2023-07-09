@@ -45,8 +45,9 @@ class Auth {
     public static function check_user_access($table, $id) {
         $user = DBConn::select($table, '*', ['id' => $id, 'access_enabled' => '0']);
         if (count($user) > 0) {
-            self::sign_out();
+            return true;
         } 
+        return false;
     }
 
     public static function check_email_verified($a, $t, $id) {
@@ -90,7 +91,7 @@ class Auth {
         session_unset();
         session_destroy();
 
-        if (isset($_SERVER['HTTP_REFERER'])) {
+        if (isset($_SERVER['HTTP_REFERER'])) { 
             header("Location: {$_SERVER['HTTP_REFERER']}");
         }
         exit;

@@ -1,10 +1,14 @@
 <?php 
-use Auth\Auth;
+use Auth\Auth; 
 Auth::check_login_auth('user_id', '_/');
 ?>
 
 <!-- Google Recaptcha -->
 <script src="https://www.google.com/recaptcha/api.js?render=6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv"></script>
+
+<div id="div-alert" hidden class="fixed z-100 top-3 right-4 bg-white border rounded py-2 px-5 shadow text-[14.5px] animate__animated">
+    <p id="alert-msg"></p>
+</div> 
 
 <div class="flex justify-center items-center mt-20">
     <div class="md:w-2/6 w-96">
@@ -24,7 +28,7 @@ Auth::check_login_auth('user_id', '_/');
                 </div>
                 <input type="email" name="email" id="email" maxlength="50" placeholder="user123@example.com" required class="block w-full border border-gray-300 bg-gray-50 text-sm p-2 rounded outline-none focus:border-gray-400 focus:ring-4 focus:ring-blue-200 focus:transition focus:duration-300">
             </div>
-            <div class="mb-3">  
+            <div class="mb-3">
                 <div class="flex">
                     <div class="mb-2">
                         <label for="password" class="text-[14.5px]">Password</label>
@@ -55,46 +59,50 @@ Auth::check_login_auth('user_id', '_/');
 </div>
 
 <script type="text/javascript">
-    $(function() {
-        $('#login-form').submit(function(e) {
-            e.preventDefault();
-            $('#submit-txt').attr('hidden', '');
-            $('#spinner').show();
+    $('#login-form').submit(function(e) {
+        e.preventDefault();
+        $('#submit-txt').attr('hidden', '');
+        $('#spinner').show();
 
-            grecaptcha.ready(function() {
-                grecaptcha.execute('6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv', {
-                    action: 'submit'
-                }).then(function(token) {
-                    $.ajax({
-                        url: '?rq=user_sign_in',
-                        type: 'POST',
-                        data: {
-                            recaptcha: token,
-                            csrf_token: $('#csrf-token').val(),
-                            email: $('#email').val(),
-                            password: $('#password').val(),
-                            remember: $('#remember').val(),
-                        },
-                        dataType: 'json',
-                        success: function(resp) { 
-                            if (resp.status === 'success') {
-                                window.location.href = '?vs=_/'
-                            } else if (resp.status === 'error') {
-                                $('#alert').removeAttr('hidden');
-                                if (resp.msg == '') {
-                                    $('#msg').html(resp.empty);
-                                } else {
-                                    $('#msg').html(resp.msg);
-                                }
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv', {
+                action: 'submit'
+            }).then(function(token) {
+                $.ajax({
+                    url: '?rq=user_sign_in',
+                    type: 'POST',
+                    data: {
+                        recaptcha: token,
+                        csrf_token: $('#csrf-token').val(),
+                        email: $('#email').val(),
+                        password: $('#password').val(),
+                        remember: $('#remember').val(),
+                    },
+                    dataType: 'json',
+                    success: function(resp) {
+                        if (resp.status === 'success') {
+                            window.location.href = '?vs=_/'
+                        } else if (resp.status === 'error') {
+                            $('#alert').removeAttr('hidden');
+                            if (resp.msg == '') {
+                                $('#msg').html(resp.empty);
+                            } else {
+                                $('#msg').html(resp.msg);
                             }
-                            
-                            $('#email, #password').val('');
-                            $('#submit-txt').removeAttr('hidden');
-                            $('#spinner').hide();
                         }
-                    })
-                });
+
+                        $('#email, #password').val('');
+                        $('#submit-txt').removeAttr('hidden');
+                        $('#spinner').hide();
+                    }
+                })
             });
         });
-    });
+    }); 
+
+    <?php
+        if (isset($_SESSION['access_denied'])) {
+            echo "dialog('border-red-600 text-red-700', 'Your account has been banned. Please contact support for further assistance.', 10000)";
+        }
+    ?>
 </script>
