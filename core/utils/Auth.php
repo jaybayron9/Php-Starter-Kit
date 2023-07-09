@@ -50,6 +50,7 @@ class Auth {
         return false;
     }
 
+    // Check if the user account email address is verified
     public static function check_email_verified($a, $t, $id) {
         $qry = DBConn::DBQuery("
             SELECT * FROM $t 
@@ -67,12 +68,14 @@ class Auth {
         return false;
     }
 
+    // Check if the user cookie and session id are set
     public static function check_login_auth($k, $d) {
         if (isset($_COOKIE[$k]) || isset($_SESSION[$k])) {
             header("location: ?vs=$d");
         }
     }
 
+    // Check if the user password reset token is matching the reset token from the database
     public static function check_pass_reset_token($tb) {
         $t = isset($_GET['token']) ? $_GET['token'] : '';
 
@@ -120,10 +123,12 @@ class Auth {
         return password_verify($v, $d[0]['password']) ? false : true;
     }
 
+    // Check if the email address is in email format
     public static function check_email($v) {
         return !filter_var($v['email'], FILTER_VALIDATE_EMAIL);
     }    
 
+    // Check if the email address has a similar email in the table
     public static function check_similar_email($t, $v) {
         $c = DBConn::select($t, '*', ['email' => $v], null, 1);
 
@@ -166,6 +171,19 @@ class Auth {
         if ($response->success) {
             return false;
         } 
+        return true;
+    }
+
+    // Check image extension
+    public static function valImage() {
+        if (!empty($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {  
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $fileExtension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+            if (!in_array($fileExtension, $allowedExtensions)) {
+                return true;
+            } 
+            return false;
+        }  
         return true;
     }
 }

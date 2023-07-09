@@ -2,8 +2,9 @@
 
 namespace Client;
 use Emailer;
-use DBConn\DBConn;
 use Auth\Auth;
+use DBConn\DBConn;
+use FHandler\FHandler;
 
 class User extends DBConn {
     public function sign_in() {
@@ -50,12 +51,12 @@ class User extends DBConn {
         $config = require('config.php');
         extract($config['recaptchav3']);
 
-        $error[] = Auth::check_csrf($_POST['csrf_token']) ? 'Invalid email address' : '';
+        $error[] = Auth::check_csrf($_POST['csrf_token']) ? 'Invalid email address.' : '';
         $error[] = Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY) ? 'You are a robot.' : '';
         $error[] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : '';
-        $error[] = Auth::check_email($_POST) ? 'Invalid email address' : '';
+        $error[] = Auth::check_email($_POST) ? 'Invalid email address.' : '';
         $error[] = Auth::check_similar_email('users', $_POST['email']) ? 'The email has already been taken.' : '';
-        $error[] = Auth::confirm_password($_POST['password'], $_POST['password_confirmation']) ? 'Password do not match' : '';
+        $error[] = Auth::confirm_password($_POST['password'], $_POST['password_confirmation']) ? 'Password do not match.' : '';
         $error[] = Auth::pass_length($_POST['password'], 7) ? 'The password must be at least 8 characters.' : '';
 
         if (!empty(array_filter($error))) {
@@ -116,8 +117,8 @@ class User extends DBConn {
 
     public function similar_email() {
         extract($_POST);
-        echo Auth::check_email($_POST) ? 'Invalid email address' : '';
-        echo Auth::check_similar_email('users', $email) ? 'This Email address is already taken.' : '';
+        echo Auth::check_email($_POST) ? 'Invalid email address.' : '';
+        echo Auth::check_similar_email('users', $email) ? 'The email has already been taken.' : '';
     }
 
     public function pass_request() { 
@@ -183,19 +184,29 @@ class User extends DBConn {
         $error[] = Auth::check_csrf($_POST['csrf_token']) ? '403 (Forbidden)' : '';
         $error[] = Auth::empty($_POST['email']) ? 'The email field is required.' : '';
         $error[] = Auth::empty($_POST['name']) ? 'The name field is required.' : '';
+        $error[] = Auth::empty($_POST['phone']) ? 'The phone field is required.' : ''; 
 
         if (!empty(array_filter($error))) {
             return json_encode([
                 'status' => 400,
                 'email' => $error[1],
                 'name' => $error[2],
+                'phone' => $error[3],
             ]);
-        }
+        } 
 
         DBConn::update('users', [
             'name' => $_POST['name'],
             'email' => $_POST['email'],
         ], "id = '{$_POST['id']}'");
+
+        if (!Auth::valImage()) { 
+            $del = DBConn::select('users', '*', ['id' => $_POST['id']], null, 1);
+            FHandler::delete_image($del[0]['profile_photo_path']);
+            DBConn::update('users', [
+                'profile_photo_path' => FHandler::upload_image('uploads'),
+            ], "id = '{$_POST['id']}'");
+        }
 
         return parent::resp(200, 'Saved.');
     }

@@ -16,14 +16,14 @@
                     <div class="px-4 sm:px-0">
                         <h3 class="text-lg font-medium text-gray-900">Backup Database</h3>
                         <p class="mt-1 text-sm text-gray-600">
-                            Permanently delete your account.
+                            Backup your database
                         </p>
                     </div>
                 </div>
                 <div class="mt-5 md:mt-0 col-span-2"> 
                     <div class="px-4 py-5 bg-white sm:p-6 shadow sm:rounded-tl-md sm:rounded-tr-md">
                         <div class="max-w-xl text-sm text-gray-600">
-                            Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.
+                            With the click of a button, our 'Backup Database' feature allows you to protect your valuable information effortlessly. Ensure the integrity and continuity of your data by initiating a secure backup. Click 'Backup Database' to safeguard your data with confidence.
                         </div>
                         <div class="mt-5">
                             <a href="?rq=backup_database" id="backup" class="btn inline-flex items-center justify-center px-4 py-2 bg-yellow-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-500 active:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition ease-in-out duration-150">

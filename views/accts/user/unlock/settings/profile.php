@@ -33,6 +33,22 @@
                                 <input type="text" name="email" id="email" value="<?= $user_info[0]['email'] ?>" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <span id="email-err" class="text-sm text-red-500"></span>
                             </div>
+                            <!-- Phone -->
+                            <div class="col-span-6 sm:col-span-4">
+                                <label class="block font-medium text-sm text-gray-700">Phone number</label>
+                                <input type="text" name="phone" id="phone" value="<?= $user_info[0]['phone'] ?>" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <span id="phone-err" class="text-sm text-red-500"></span>
+                            </div>
+                            <!-- Photo -->
+                            <div class="col-span-6 sm:col-span-4">
+                                <label class="block font-medium text-sm text-gray-700">Profile picture</label>
+                                <!-- accept="image/*" -->
+                                <input type="file" name="image" id="image"  class="mt-1 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <span id="image-err" class="text-sm text-red-500"></span>
+                                <div class="flex justify-center items-center mt-5">
+                                    <img src="assets/storage/<?= $user_info[0]['profile_photo_path'] ?>" alt="Profile picture" class=" h-32 w-32 rounded-full bg-black">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
@@ -199,6 +215,7 @@
                     } else if (resp.status == 400) {
                         $('#name-err').show().text(resp.name)
                         $('#email-err').show().text(resp.email)
+                        $('#phone-err').show().text(resp.phone)
                     }
                 }
             });

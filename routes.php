@@ -17,6 +17,7 @@ return [
     '_admin/system'            => view('accts/admin/unlock/settings', 'system'),
     '_admin/users'             => view('accts/admin/unlock', 'users'),
     '_admin/supports'          => view('accts/admin/unlock', 'supports'),
+    '_admin/inbox'             => view('accts/admin/unlock', 'inbox'), 
 
     '_sup'                     => view('accts/support/lock', 'login'),
     '_sup/forgot_password'     => view('accts/support/lock', 'forgot-pass'),

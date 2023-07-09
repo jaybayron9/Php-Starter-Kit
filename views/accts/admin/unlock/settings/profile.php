@@ -6,7 +6,7 @@
 <main id="main-content" class="relative h-full overflow-y-auto lg:ml-64">
     <div class="px-4 my-[80px]">
         <!-- Profile Information Form -->
-        <div  class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:grid md:grid-cols-3 md:gap-6">
             <div class="md:col-span-1 flex justify-between">
                 <div class="px-4 sm:px-0">
                     <h3 class="text-lg font-medium text-gray-900">Profile Information</h3>
@@ -32,6 +32,22 @@
                                 <label class="block font-medium text-sm text-gray-700">Email</label>
                                 <input type="text" name="email" id="email" value="<?= $admin_info[0]['email'] ?>" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                                 <span id="email-err" class="text-sm text-red-500"></span>
+                            </div>
+                            <!-- Phone -->
+                            <div class="col-span-6 sm:col-span-4">
+                                <label class="block font-medium text-sm text-gray-700">Phone number</label>
+                                <input type="text" name="phone" id="phone" value="<?= $admin_info[0]['phone'] ?>" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <span id="phone-err" class="text-sm text-red-500"></span>
+                            </div>
+                            <!-- Photo -->
+                            <div class="col-span-6 sm:col-span-4">
+                                <label class="block font-medium text-sm text-gray-700">Profile picture</label>
+                                <!-- accept="image/*" -->
+                                <input type="file" name="image" id="image"  class="mt-1 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <span id="image-err" class="text-sm text-red-500"></span>
+                                <div class="flex justify-center items-center mt-5">
+                                    <img src="assets/storage/<?= $admin_info[0]['profile_photo_path'] ?>" alt="Profile picture" class=" h-32 w-32 rounded-full bg-black">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,13 +92,13 @@
                                 <div class="col-span-6 sm:col-span-4">
                                     <label class="block font-medium text-sm text-gray-700">Current Password</label>
                                     <input type="password" name="current_password" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                    <span id="cur-err" class="text-sm text-red-500 block"></span> 
+                                    <span id="cur-err" class="text-sm text-red-500 block"></span>
                                 </div>
                                 <!-- New Password -->
                                 <div class="col-span-6 sm:col-span-4">
                                     <label class="block font-medium text-sm text-gray-700">New Password</label>
                                     <input type="password" name="new_password" class="mt-1 p-2 block w-full border border-gray-300 focus:outline-none focus:ring-2 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                                    <span id="new-err" class="text-sm text-red-500 block"></span> 
+                                    <span id="new-err" class="text-sm text-red-500 block"></span>
                                 </div>
                                 <!-- New Password -->
                                 <div class="col-span-6 sm:col-span-4">
@@ -118,18 +134,19 @@
                 type: 'POST',
                 data: new FormData(this),
                 contentType: false,
-                processData: false, 
+                processData: false,
                 dataType: 'json',
-                success: function(resp) {
+                success: function(resp) { 
                     if (resp.status == 200) {
                         var msg = $('#saved-info');
                         msg.show();
-                        setTimeout(()=> {
+                        setTimeout(() => {
                             msg.fadeOut('slow');
                         }, 2000)
                     } else if (resp.status == 400) {
                         $('#name-err').show().text(resp.name)
                         $('#email-err').show().text(resp.email)
+                        $('#phone-err').show().text(resp.phone)
                     }
                 }
             });
@@ -143,29 +160,29 @@
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
-                success: function(resp) { 
-                    if (resp.status == 200) { 
+                success: function(resp) {
+                    if (resp.status == 200) {
                         $('#cur-err #new-err').hide();
                         var msg = $('#pass-saved');
                         msg.show();
-                        setTimeout(()=> {
+                        setTimeout(() => {
                             msg.fadeOut('slow');
                         }, 2000)
-                    } else if (resp.status == 400) {   
+                    } else if (resp.status == 400) {
                         if (resp.current_password !== '') {
-                            $('#cur-err').text(resp.current_password); 
+                            $('#cur-err').text(resp.current_password);
                         } else {
-                            $('#cur-err').text(resp.old_pass_confirmation); 
+                            $('#cur-err').text(resp.old_pass_confirmation);
                         }
 
                         if (resp.new_password !== '') {
-                            $('#new-err').text(resp.new_password); 
+                            $('#new-err').text(resp.new_password);
                         } else if (resp.pass_length !== '') {
-                            $('#new-err').text(resp.pass_length); 
+                            $('#new-err').text(resp.pass_length);
                         } else {
-                            $('#new-err').text(resp.password_confirmaton); 
+                            $('#new-err').text(resp.password_confirmaton);
                         }
-                    } 
+                    }
                 }
             });
         })

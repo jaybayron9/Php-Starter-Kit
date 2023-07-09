@@ -4,6 +4,7 @@ namespace Support;
 use Emailer;
 use Auth\Auth;
 use DBConn\DBConn;
+use FHandler\FHandler;
 
 class Support extends DBConn {
     public function sign_in() {
@@ -99,19 +100,30 @@ class Support extends DBConn {
         $error[] = Auth::check_csrf($_POST['csrf_token']) ? '403 (Forbidden)' : '';
         $error[] = Auth::empty($_POST['email']) ? 'The email field is required.' : '';
         $error[] = Auth::empty($_POST['name']) ? 'The name field is required.' : '';
+        $error[] = Auth::empty($_POST['phone']) ? 'The phone field is required.' : ''; 
 
         if (!empty(array_filter($error))) {
             return json_encode([
                 'status' => 400,
                 'email' => $error[1],
-                'name' => $error[2],
+                'name' => $error[2], 
+                'phone' => $error[3],
             ]);
         }
 
         DBConn::update('supports', [
             'name' => $_POST['name'],
             'email' => $_POST['email'],
+            'phone' => $_POST['phone'], 
         ], "id = '{$_POST['id']}'");
+
+        if (!Auth::valImage()) { 
+            $del = DBConn::select('supports', '*', ['id' => $_POST['id']], null, 1);
+            FHandler::delete_image($del[0]['profile_photo_path']);
+            DBConn::update('supports', [
+                'profile_photo_path' => FHandler::upload_image('uploads'),
+            ], "id = '{$_POST['id']}'");
+        }
 
         return parent::resp(200, 'Saved.');
     }
