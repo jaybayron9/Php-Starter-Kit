@@ -28,17 +28,14 @@
 8. After opening the project once, a database and tables will be generated. After that, follow these steps:
 	> Go to the following file: `core/Database.php`
 	> Comment out the following lines of code:
-
-
-		```
-			self::createTable(); // line 26  self::createData();  // line 27 
-		```
+ 
+			self::createTable(); // 
+         line 26  self::createData();  // line 27 
+		
 	> Open config.php and replace the database name with your own database name:
-
-
-		```
+ 
 			'mysql' => [
 				'database' => YourProjectName,
 			],
-		```
+		
 9. You can now continue building your project.
