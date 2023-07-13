@@ -7,35 +7,35 @@
 
 ## GETTING STARTED
 1. Open the command prompt.
-2. Locate your htdocs folder by typing
-	> ```cd  \\```
+2. Navigate to your htdocs folder by typing the following commands:
+	> ```cd  \```
 	> ```cd xampp/htdocs```
-3. After you located your htdocs folder, you can choose which folder inside htdocs folder you want to place your project by typing
+3. Once you have located your htdocs folder, choose the folder inside it where you want to place your project by typing:
 	> ```cd yourProjectName```
-	to back in previous folder just type
-	> ```cd ..\\```
-4. Clone a repository by typing
+	To go back to the previous folder, type:
+	> ```cd ..\```
+4. Clone the repository by typing:
 	> ```git clone https://github.com/jaybayron9/PhpStarterKit.git```
-	this will copy the PHP Starter kit in your directory
-5. Change the folder name PhpStarterKit to your choice database name. in your cmd type
+	This will copy the PHP Starter Kit to your chosen directory.
+5. Rename the folder PhpStarterKit to the desired name for your database. In the command prompt, type:
 	> ```ren PHPStarterKit YourProjectName```
-	Please take note that the name of your base folder is the name of your database.
-6. Open your Project by typing
+	Please note that the name of your base folder will be used as the name of your database.
+6. Open your project by typing:
 	> ```cd YourProjectName```
 	> ```code .```
-	This will open your vscode IDE.
+	This will open your project in Visual Studio Code.
 7. You can now open your project in your browser.
-8. After you open the project once this will generate a database and tables. After that go to your project folder and comment the lines of code:
-	> folder: core/Database.php
-	> code to be commented:  
-		```python
-			self::createTable(); // line 26
-			self::createData();  // line 27
+8. After opening the project once, a database and tables will be generated. After that, follow these steps:
+	> Go to the following file: `core/Database.php`
+	> Comment out the following lines of code:
 		```
-	> go to config.php and replace your database with your database name
+			self::createTable(); // line 26
+         self::createData();  // line 27 
+		```
+	> Open config.php and replace the database name with your own database name:
 		```
 			'mysql' => [
 				'database' => YourProjectName,
 			],
 		```
-9. You can now continue building your project
+9. You can now continue building your project.
