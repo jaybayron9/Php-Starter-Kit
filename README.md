@@ -29,8 +29,8 @@
 	> Go to the following file: `core/Database.php`
 	> Comment out the following lines of code:
  
-			self::createTable(); // 
-         line 26  self::createData();  // line 27 
+			self::createTable(); //  line 26  
+         self::createData();  // line 27 
 		
 	> Open config.php and replace the database name with your own database name:
  
