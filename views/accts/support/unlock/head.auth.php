@@ -12,6 +12,7 @@ if (Auth::check_user_access(
     $_SESSION['access_denied'] = true;
     header('refresh: 0');
 } 
+$conn = new DBConn();
 $support_info = DBConn::select('supports', '*', [
         'id' => $_SESSION['support_id']
     ], null, 1);

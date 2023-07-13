@@ -28,4 +28,4 @@ require_once core('ajax.req');
 // Page Contents
 include_once(view('partials', 'header'));
 include_once(getURL($GET));
-include_once(view('partials', 'footer'));
+include_once(view('partials', 'footer'));  

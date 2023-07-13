@@ -1,7 +1,7 @@
-<?php include view('accts/admin/unlock', 'head.auth'); ?>
+<?php include view('accts/support/unlock', 'head.auth'); ?>
 
-<?php include view('accts/admin/unlock/navbars', 'topbar') ?>
-<?php include view('accts/admin/unlock/navbars', 'sidebar') ?>
+<?php include view('accts/support/unlock/navbars', 'topbar') ?>
+<?php include view('accts/support/unlock/navbars', 'sidebar') ?>
 
 <main id="main-content" class="relative h-full overflow-y-auto lg:ml-64">
     <div class="px-4 h-full my-[80px]">
@@ -12,7 +12,7 @@
                     <li class="bg-blue-100 p-2 rounded-lg mb-0 hover:cursor-pointer min-w-[100px] relative">
                         <div class="flex flex-row gap-x-2">
                             <div class="flex flex-row">
-                                <img src="assets/storage/<?= $admin_info[0]['profile_photo_path'] ?>" alt="Profile picture" class="h-14 w-14 rounded-full">
+                                <img src="assets/storage/<?= $support_info[0]['profile_photo_path'] ?>" alt="Profile picture" class="h-14 w-14 rounded-full">
                                 <div class="absolute h-[15px] w-[15px] mt-10 ml-8 bg-green-400 rounded-full border-2 border-gray-600"></div>
                             </div>
                             <div class="sm:flex hidden flex-col">
@@ -42,7 +42,7 @@
             <div class="col-span-4">
                 <div class="ml-3 flex flex-row gap-2 mb-3">
                     <div class="flex flex-row ">
-                        <img src="assets/storage/<?= $admin_info[0]['profile_photo_path'] ?>" alt="Profile picture" class="overflow-x-auto h-12 w-12 min-w-[49px] rounded-full">
+                        <img src="assets/storage/<?= $support_info[0]['profile_photo_path'] ?>" alt="Profile picture" class="overflow-x-auto h-12 w-12 min-w-[49px] rounded-full">
                         <div class="absolute h-[15px] w-[15px] mt-8 ml-7 bg-green-400 rounded-full border-2 border-gray-600"></div>
                     </div>
                     <div class="flex flex-col">

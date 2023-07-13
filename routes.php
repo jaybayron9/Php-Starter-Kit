@@ -19,11 +19,14 @@ return [
     '_admin/supports'          => view('accts/admin/unlock', 'supports'),
     '_admin/inbox'             => view('accts/admin/unlock', 'inbox'), 
 
+    // Support Authorization
     '_sup'                     => view('accts/support/lock', 'login'),
     '_sup/forgot_password'     => view('accts/support/lock', 'forgot-pass'),
     '_sup/reset_password'      => view('accts/support/lock', 'reset-pass'),
     '_sup/'                    => view('accts/support/unlock'),
     '_sup/profile'             => view('accts/support/unlock/settings', 'profile'),
+    '_sup/users'               => view('accts/support/unlock', 'users'),
+    '_sup/inbox'               => view('accts/support/unlock', 'inbox'), 
 
     // Users Authorization
     'login'                    => view('accts/user/lock', 'login'),
