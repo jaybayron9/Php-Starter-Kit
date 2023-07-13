@@ -1,6 +1,6 @@
 <?php include view('accts/admin/unlock', 'head.auth') ?>
 
-<?php include view('accts/admin/unlock/navbars', 'topbar') ?>
+<?php //include view('accts/admin/unlock/navbars', 'topbar') ?>
 <?php include view('accts/admin/unlock/navbars', 'sidebar') ?>
 
 <main id="main-content" class="relative h-full overflow-y-auto lg:ml-64">
@@ -127,8 +127,8 @@
 <script type="text/javascript">
     $(function() {
         $('#profile-form').submit(function(e) {
-            e.preventDefault();
-
+            e.preventDefault(); 
+ 
             $.ajax({
                 url: '?rq=admin_update_profile',
                 type: 'POST',
@@ -142,7 +142,9 @@
                         msg.show();
                         setTimeout(() => {
                             msg.fadeOut('slow');
-                        }, 2000)
+                        }, 2000) 
+                    } else if (resp.status == 1) {
+                        window.location.reload(true);
                     } else if (resp.status == 400) {
                         $('#name-err').show().text(resp.name)
                         $('#email-err').show().text(resp.email)
