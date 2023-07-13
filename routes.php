@@ -16,8 +16,7 @@ return [
     '_admin/profile'           => view('accts/admin/unlock/settings', 'profile'),
     '_admin/system'            => view('accts/admin/unlock/settings', 'system'),
     '_admin/users'             => view('accts/admin/unlock', 'users'),
-    '_admin/supports'          => view('accts/admin/unlock', 'supports'),
-    '_admin/inbox'             => view('accts/admin/unlock', 'inbox'), 
+    '_admin/supports'          => view('accts/admin/unlock', 'supports'), 
 
     // Support Authorization
     '_sup'                     => view('accts/support/lock', 'login'),
@@ -25,8 +24,7 @@ return [
     '_sup/reset_password'      => view('accts/support/lock', 'reset-pass'),
     '_sup/'                    => view('accts/support/unlock'),
     '_sup/profile'             => view('accts/support/unlock/settings', 'profile'),
-    '_sup/users'               => view('accts/support/unlock', 'users'),
-    '_sup/inbox'               => view('accts/support/unlock', 'inbox'), 
+    '_sup/users'               => view('accts/support/unlock', 'users'), 
 
     // Users Authorization
     'login'                    => view('accts/user/lock', 'login'),

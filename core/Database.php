@@ -19,9 +19,9 @@ class Database {
             echo 'Connection failed: ' . $e->getMessage();
         }
 
-        $this->createDB();
+        // $this->createDB();
 
-        $this->conn->select_db($this->get_database_name());
+        // $this->conn->select_db($this->get_database_name());
         
         // self::createTable();
         // self::createData();

@@ -16,15 +16,15 @@
     <!-- JQuery -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <!-- Alert -->
-    <script src="assets/js/alert.js"></script>
+    <!-- <script src="assets/js/alert.js"></script> -->
     <!-- Pace.js | Page Pre-loader -->
-    <link rel="stylesheet" href="assets/css/preloader.css"> 
+    <!-- <link rel="stylesheet" href="assets/css/preloader.css"> 
     <script src="assets/js/preloader.js"></script>
     <script type="text/javascript"> 
         $(document).ajaxStart(function() { 
             Pace.restart();
         });
-    </script>
+    </script> -->
 </head>
 
 <body class="bg-[#F1F5F9]">
