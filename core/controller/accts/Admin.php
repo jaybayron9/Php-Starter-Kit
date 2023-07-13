@@ -121,6 +121,8 @@ class Admin extends DBConn {
             DBConn::update('admins', [
                 'profile_photo_path' => FHandler::upload_image('uploads'),
             ], "id = '{$_POST['id']}'");
+
+            return parent::resp(1);
         }
         
         return parent::resp(200, 'Saved.');

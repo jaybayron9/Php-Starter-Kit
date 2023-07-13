@@ -142,7 +142,9 @@
                         msg.show();
                         setTimeout(() => {
                             msg.fadeOut('slow');
-                        }, 2000)
+                        }, 2000)  
+                    } else if (resp.status == 1) {
+                        window.location.reload(true);
                     } else if (resp.status == 400) {
                         $('#name-err').show().text(resp.name)
                         $('#email-err').show().text(resp.email)
