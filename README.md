@@ -1,8 +1,8 @@
 ## REQUIREMENTS
-> Apache (XAMPP, LAMPP, etc.)
-> MySql  (XAMPP, LAMPP, etc.)
-> Node.js [Node.js (nodejs.org)](https://nodejs.org/en)
-> Composer [Composer (getcomposer.org)](https://getcomposer.org/)
+* Apache (XAMPP, LAMPP, etc.)
+* MySql  (XAMPP, LAMPP, etc.)
+* Node.js [Node.js (nodejs.org)](https://nodejs.org/en)
+* Composer [Composer (getcomposer.org)](https://getcomposer.org/)
 
 
 ## GETTING STARTED
