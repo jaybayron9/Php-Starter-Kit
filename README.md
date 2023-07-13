@@ -1,39 +1,41 @@
+## REQUIREMENTS
+> Apache (XAMPP, LAMPP, etc.)
+> MySql  (XAMPP, LAMPP, etc.)
+> Node.js [Node.js (nodejs.org)](https://nodejs.org/en)
+> Composer [Composer (getcomposer.org)](https://getcomposer.org/)
 
 
-
-
-
-# PHP STARTER KIT
-
-1. Install Node.js:
-   - Visit the official Node.js website (https://nodejs.org) and download the latest version of Node.js for your operating system.
-   - Run the installer and follow the instructions to install Node.js.
-
-2. Open a command prompt or terminal:
-   - On Windows, you can open the Command Prompt by pressing Win + R, typing "cmd," and pressing Enter.
-   - On macOS or Linux, you can open the Terminal from the Applications or Utilities folder.
-
-3. Navigate to the directory where you want to clone the project. Use the `cd` command to change the directory. For example, if you want to clone the project to your desktop, you can use the following command:
-   ```
-   cd ~/Desktop
-   ```
-
-4. Once you are in the desired directory, use the `git clone` command through npm to clone your project. The syntax is as follows:
-   ```
-   npx degit <repository_url>
-   ```
-
-   - Replace `<repository_url>` with the URL of your GitHub repository. You can find this URL on the repository's page on GitHub. It typically looks like `https://github.com/username/repository.git`.
-
-   Here's an example command:
-   ```
-   npx degit https://github.com/username/repository.git
-   ```
-
-   The `degit` command is provided by the `npx` package runner, which comes with npm. It allows you to clone a GitHub repository without having to install any additional packages globally.
-
-5. Press Enter to execute the command.
-
-The repository will be cloned to your local machine in the current directory. Once the cloning process is complete, you will have a local copy of your project that you can work with.
-
-Note that the `degit` command is a handy utility for cloning GitHub repositories, but it may not be installed by default with older versions of npm. If you encounter any issues, you can try updating npm by running `npm install -g npm` and then repeat step 4.
+## GETTING STARTED
+1. Open the command prompt.
+2. Locate your htdocs folder by typing
+	> ```cd  \\```
+	> ```cd xampp/htdocs```
+3. After you located your htdocs folder, you can choose which folder inside htdocs folder you want to place your project by typing
+	> ```cd yourProjectName```
+	to back in previous folder just type
+	> ```cd ..\\```
+4. Clone a repository by typing
+	> ```git clone https://github.com/jaybayron9/PhpStarterKit.git```
+	this will copy the PHP Starter kit in your directory
+5. Change the folder name PhpStarterKit to your choice database name. in your cmd type
+	> ```ren PHPStarterKit YourProjectName```
+	Please take note that the name of your base folder is the name of your database.
+6. Open your Project by typing
+	> ```cd YourProjectName```
+	> ```code .```
+	This will open your vscode IDE.
+7. You can now open your project in your browser.
+8. After you open the project once this will generate a database and tables. After that go to your project folder and comment the lines of code:
+	> folder: core/Database.php
+	> code to be commented:  
+		```python
+			self::createTable(); // line 26
+			self::createData();  // line 27
+		```
+	> go to config.php and replace your database with your database name
+		```
+			'mysql' => [
+				'database' => YourProjectName,
+			],
+		```
+9. You can now continue building your project
