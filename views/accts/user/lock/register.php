@@ -1,6 +1,3 @@
-<!-- Google Recaptcha -->
-<script src="https://www.google.com/recaptcha/api.js?render=6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv"></script>
-
 <div class="flex justify-center items-center mt-[40px]">
     <div class="md:w-2/6 w-96">
         <div class="flex justify-center items-center mb-5 gap-x-3">
@@ -76,49 +73,42 @@
             e.preventDefault();
             $('#submit-txt').attr('hidden', '');
             $('#spinner').show();
-
-            grecaptcha.ready(function() {
-                grecaptcha.execute('6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv', {
-                    action: 'submit'
-                }).then(function(token) {
-                    $.ajax({
-                        url: '?rq=user_register',
-                        type: 'POST',
-                        data: {
-                            recaptcha: token,
-                            csrf_token: $('#csrf-token').val(),
-                            email: $('#email').val(),
-                            password: $('#password').val(),
-                            password_confirmation: $('#password-confirmation').val()
-                        },
-                        dataType: 'json',
-                        success: function(resp) {
-                            if (resp.status == 'success') {
-                                $('#alert').attr('hidden', '');
-                                window.location.href = '?vs=_/';
-                            } else if (resp.status == 'error') {
-                                if (resp.msg !== '') {
-                                    $('#alert').removeAttr('hidden');
-                                    $('#msg').html(resp.msg);
-                                } else {
-                                    $('#alert').attr('hidden', '');
-                                }
-
-                                if (resp.email_format !== '') {
-                                    $('#email-msg').text(resp.email_format);
-                                } else {
-                                    $('#email-msg').text(resp.similar_email);
-                                }
-                                
-                                $('#pass-msg').text(resp.password_length);
-                                $('#confirm-pass-msg').text(resp.pass_confirm);
-                            }
-
-                            $('#submit-txt').removeAttr('hidden');
-                            $('#spinner').hide();
+ 
+            $.ajax({
+                url: '?rq=user_register',
+                type: 'POST',
+                data: { 
+                    csrf_token: $('#csrf-token').val(),
+                    email: $('#email').val(),
+                    password: $('#password').val(),
+                    password_confirmation: $('#password-confirmation').val()
+                },
+                dataType: 'json',
+                success: function(resp) {
+                    if (resp.status == 'success') {
+                        $('#alert').attr('hidden', '');
+                        window.location.href = '?vs=_/';
+                    } else if (resp.status == 'error') {
+                        if (resp.msg !== '') {
+                            $('#alert').removeAttr('hidden');
+                            $('#msg').html(resp.msg);
+                        } else {
+                            $('#alert').attr('hidden', '');
                         }
-                    })
-                });
+
+                        if (resp.email_format !== '') {
+                            $('#email-msg').text(resp.email_format);
+                        } else {
+                            $('#email-msg').text(resp.similar_email);
+                        }
+                        
+                        $('#pass-msg').text(resp.password_length);
+                        $('#confirm-pass-msg').text(resp.pass_confirm);
+                    }
+
+                    $('#submit-txt').removeAttr('hidden');
+                    $('#spinner').hide();
+                } 
             });
         });
     });

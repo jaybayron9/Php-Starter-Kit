@@ -1,10 +1,7 @@
 <?php 
 use Auth\Auth; 
 Auth::check_login_auth('admin_id', '_admin/');
-?>
-
-<!-- Google Recaptcha -->
-<script src="https://www.google.com/recaptcha/api.js?render=6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv"></script>
+?> 
 
 <div class="flex justify-center items-center mt-20">
     <div class="md:w-2/6 w-96">
@@ -46,37 +43,30 @@ Auth::check_login_auth('admin_id', '_admin/');
         $('#form').submit(function(e) {
             e.preventDefault();
             $('#submit-txt').attr('hidden', '');
-            $('#spinner').show();
+            $('#spinner').show(); 
 
-            grecaptcha.ready(function() {
-                grecaptcha.execute('6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv', {
-                    action: 'submit'
-                }).then(function(token) {
-                    $.ajax({
-                        url: '?rq=admin_send_pass_req',
-                        type: 'POST',
-                        data: {
-                            recaptcha: token,
-                            csrf_token: $('#csrf-token').val(),
-                            email: $('#email').val(),
-                        },
-                        dataType: 'json',
-                        success: function(resp) {
-                            if (resp.status == 'success') {
-                                $('#alert').removeAttr('hidden');
-                                $('#msg').removeClass('border-l-red-600 text-red-700');
-                                $('#msg').addClass('border-l-green-500 text-green-600')
-                            } else if (resp.status == 'error') {
-                                $('#alert').removeAttr('hidden');
-                                $('#email').val('');
-                            }
+            $.ajax({
+                url: '?rq=admin_send_pass_req',
+                type: 'POST',
+                data: { 
+                    csrf_token: $('#csrf-token').val(),
+                    email: $('#email').val(),
+                },
+                dataType: 'json',
+                success: function(resp) {
+                    if (resp.status == 'success') {
+                        $('#alert').removeAttr('hidden');
+                        $('#msg').removeClass('border-l-red-600 text-red-700');
+                        $('#msg').addClass('border-l-green-500 text-green-600')
+                    } else if (resp.status == 'error') {
+                        $('#alert').removeAttr('hidden');
+                        $('#email').val('');
+                    }
 
-                            $('#msg').html(resp.msg);
-                            $('#submit-txt').removeAttr('hidden');
-                            $('#spinner').hide();
-                        }
-                    }); 
-                });
+                    $('#msg').html(resp.msg);
+                    $('#submit-txt').removeAttr('hidden');
+                    $('#spinner').hide();
+                } 
             });
         });
     });

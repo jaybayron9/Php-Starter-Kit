@@ -7,22 +7,17 @@ use DBConn\DBConn;
 use FHandler\FHandler;
 
 class User extends DBConn {
-    public function sign_in() {
-        $config = require('config.php'); 
-        extract($config['recaptchav3']);
-
+    public function sign_in() { 
         $msg = 'Incorrect email or password';
 
-        $error[] = Auth::check_csrf($_POST['csrf_token']) ? $msg : ''; 
-        $error[] = Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY) ? 'You are a robot.' : '';
+        $error[] = Auth::check_csrf($_POST['csrf_token']) ? $msg : '';  
         $error[] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : '';
 
         if (!empty(array_filter($error))) {
             return json_encode([
                 'status' => 'error',
-                'msg' => $error[0],
-                'robot' => $error[1], 
-                'empty' => $error[2]
+                'msg' => $error[0], 
+                'empty' => $error[1]
             ]);
         }
 
@@ -36,6 +31,7 @@ class User extends DBConn {
                 return parent::alert('success', '');
             }
         }
+
         return parent::alert('error', $msg);
     }
 
@@ -47,12 +43,8 @@ class User extends DBConn {
         Auth::sign_out();
     }
 
-    public function sign_up() {
-        $config = require('config.php');
-        extract($config['recaptchav3']);
-
-        $error[] = Auth::check_csrf($_POST['csrf_token']) ? 'Invalid email address.' : '';
-        $error[] = Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY) ? 'You are a robot.' : '';
+    public function sign_up() { 
+        $error[] = Auth::check_csrf($_POST['csrf_token']) ? 'Invalid email address.' : ''; 
         $error[] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : '';
         $error[] = Auth::check_email($_POST) ? 'Invalid email address.' : '';
         $error[] = Auth::check_similar_email('users', $_POST['email']) ? 'The email has already been taken.' : '';
@@ -62,11 +54,11 @@ class User extends DBConn {
         if (!empty(array_filter($error))) {
             return json_encode([
                 'status' => 'error',
-                'msg' => $error[2],
-                'email_format' => $error[3], 
-                'similar_email' => $error[4],
-                'pass_confirm' => $error[5],
-                'password_length' => $error[6],
+                'msg' => $error[1],
+                'email_format' => $error[2], 
+                'similar_email' => $error[3],
+                'pass_confirm' => $error[4],
+                'password_length' => $error[5],
             ]);
         }
 
@@ -121,14 +113,8 @@ class User extends DBConn {
         echo Auth::check_similar_email('users', $email) ? 'The email has already been taken.' : '';
     }
 
-    public function pass_request() { 
-        $config = require('config.php');
-        extract($config['recaptchav3']);
-
-        Auth::check_csrf($_POST['csrf_token']); 
-        if (Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY)) {
-            return parent::alert('error', 'You are a robot.');
-        } 
+    public function pass_request() {  
+        Auth::check_csrf($_POST['csrf_token']);  
 
         if (!Auth::check_empty($_POST)) {
             $email = parent::select('users', '*', ['email' => $_POST['email']], null, 1);
@@ -198,6 +184,7 @@ class User extends DBConn {
         DBConn::update('users', [
             'name' => $_POST['name'],
             'email' => $_POST['email'],
+            'phone' => $_POST['phone'], 
         ], "id = '{$_POST['id']}'");
 
         if (!Auth::valImage()) { 

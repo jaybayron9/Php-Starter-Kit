@@ -7,21 +7,16 @@ use DBConn\DBConn;
 use FHandler\FHandler;
 
 class Support extends DBConn {
-    public function sign_in() {
-        $config = require('config.php'); 
-        extract($config['recaptchav3']);
-
-        $error[] = Auth::check_csrf($_POST['csrf_token']) ? 'Error: 400 - Bad Request' : ''; 
-        $error[] = Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY) ? 'You are a robot.' : '';
-        $error[] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : null;
-        $error[] = Auth::check_email($_POST) ? 'Incorrect email or password' : null;
+    public function sign_in() {  
+        $error[] = Auth::check_csrf($_POST['csrf_token']) ? 'Error: 400 - Bad Request' : '';  
+        $error[] = Auth::check_empty($_POST) ? 'Please fill out the required fields' : '';
+        $error[] = Auth::check_email($_POST) ?  'Incorrect email or password' : '';
 
         if (!empty(array_filter($error))) {
             return json_encode([
                 'status' => 'error',
-                'msg' => 'Incorrect email or password',
-                'robot' => $error[1], 
-                'empty' => $error[2]
+                'msg' => 'Incorrect email or password', 
+                'empty' => $error[1]
             ]);
         }
 
@@ -32,19 +27,13 @@ class Support extends DBConn {
                 $_SESSION['support_id'] = $d['id'];
                 return parent::alert('success', '');
             }
-        }
-
-        return parent::alert('error', $msg);
+        } 
+        
+        return parent::alert('error', 'Incorrect email or password');
     }
 
-    public function pass_request() { 
-        $config = require('config.php');
-        extract($config['recaptchav3']);
-
-        Auth::check_csrf($_POST['csrf_token']); 
-        if (Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY)) {
-            return parent::alert('error', 'You are a robot.');
-        } 
+    public function pass_request() {  
+        Auth::check_csrf($_POST['csrf_token']);  
 
         if (!Auth::check_empty($_POST)) {
             $email = parent::select('supports', '*', ['email' => $_POST['email']], null, 1);

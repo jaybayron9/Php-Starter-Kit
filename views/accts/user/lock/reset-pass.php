@@ -1,10 +1,7 @@
-<?php
-
-use Auth\Auth;
-
+<?php 
+use Auth\Auth; 
 Auth::check_login_auth('user_id', '_/');
-Auth::check_pass_reset_token('users');
-
+Auth::check_pass_reset_token('users'); 
 ?>
 
 <div class="flex justify-center items-center mt-16 mb-10">

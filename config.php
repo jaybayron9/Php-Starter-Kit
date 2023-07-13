@@ -33,7 +33,7 @@ return [
         'number' => '+639123456780',
     ],
     'links' => [
-        'base_url' => 'http://localhost/GitHub/PHPMysqlTailwindJquery'
+        'base_url' => 'http://localhost/GitHub/PhpStarterKit'
     ],
     'recaptchav3' => [
         'SITE_KEY' => '6LdIqu0mAAAAAHKhiSg-EnuA7O3-9EuayBVbUxMv',

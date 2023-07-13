@@ -12,18 +12,20 @@ foreach (glob('core/utils/*.php') as $utils) {
     require_once $utils;
 }
 
-// Clients Authentication
-foreach (glob('core/controller/accts/*.php') as $control) {
-    require_once $control;
+// Clients account
+foreach (glob('core/controller/accts/*.php') as $acct) {
+    require_once $acct;
 }
 
-// Clients Authentication
-foreach (glob('core/controller/clients/*.php') as $control) {
-    require_once $control;
+// Clients data
+foreach (glob('core/controller/clients/*.php') as $data) {
+    require_once $data;
 }
 
-// Page Content (ajax) Request
-require_once core('ajax.req');
+// Http Routes
+foreach (glob('core/HttpRoutes/*.php') as $route) {
+    require_once $route;
+}
 
 // Page Contents
 include_once(view('partials', 'header'));
