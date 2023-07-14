@@ -60,9 +60,9 @@ Auth::check_login_auth('admin_id', '_admin/');
                 },
                 dataType: 'json',
                 success: function(resp) {
-                    if (resp.status === 'success') {
+                    if (resp.status == 'success') {
                         window.location.href = '?vs=_admin/'
-                    } else if (resp.status === 'error') {
+                    } else if (resp.status == 'error') {
                         $('#alert').removeAttr('hidden');
                         $('#msg').html(resp.msg);
                         $('#email, #password').val('');

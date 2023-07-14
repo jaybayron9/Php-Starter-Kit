@@ -4,7 +4,7 @@ date_default_timezone_set("Asia/Manila");
 session_start();
 
 require_once 'core/functions.php';
-// require_once core('Database');
+require_once core('Database');
 require_once core('DBConn');
 
 // Utility Classes
