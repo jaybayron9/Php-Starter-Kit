@@ -46,7 +46,7 @@ class Data extends DBConn {
         ]);
 
         $_SESSION['alert'] = 'Suppport added successfully';
-        return parent::resp(200);
+        return parent::resp();
     }
 
     public function delete_supports() { 
@@ -58,7 +58,7 @@ class Data extends DBConn {
             parent::delete('supports', ['id' => $id]);
         }
 
-        return parent::alert(200);
+        return parent::resp();
     }
 
     public function show_user() { 
@@ -103,7 +103,7 @@ class Data extends DBConn {
             parent::delete('users', ['id' => $id]);
         }
 
-        return parent::alert(200);
+        return parent::resp();
     }
 
     public function unset_alert() {

@@ -1,10 +1,7 @@
-<?php
-
-use Auth\Auth;
-
+<?php 
+use Auth\Auth; 
 Auth::check_login_auth('user_id', '_/');
-Auth::check_pass_reset_token('users');
-
+Auth::check_pass_reset_token('users'); 
 ?>
 
 <div class="flex justify-center items-center mt-16 mb-10">
@@ -70,12 +67,12 @@ Auth::check_pass_reset_token('users');
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function(resp) {
-                    if (resp.status == 'success') {
+                    if (resp.status == 200) {
                         $('#alert').removeAttr('hidden');
                         $('#msg').removeClass('border-l-red-600 text-red-700');
                         $('#msg').addClass('border-l-green-500 text-green-600');
                         $('#success').attr('hidden', true);
-                    } else if (resp.status == 'error') {
+                    } else {
                         $('#alert').removeAttr('hidden');
                     }
 

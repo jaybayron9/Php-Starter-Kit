@@ -64,11 +64,11 @@ Auth::check_login_auth('user_id', '_/');
                         },
                         dataType: 'json',
                         success: function(resp) {
-                            if (resp.status == 'success') {
+                            if (resp.status == 200) {
                                 $('#alert').removeAttr('hidden');
                                 $('#msg').removeClass('border-l-red-600 text-red-700');
                                 $('#msg').addClass('border-l-green-500 text-green-600')
-                            } else if (resp.status == 'error') {
+                            } else {
                                 $('#alert').removeAttr('hidden');
                                 $('#email').val('');
                             }

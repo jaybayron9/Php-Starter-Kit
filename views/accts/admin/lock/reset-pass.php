@@ -70,12 +70,12 @@ Auth::check_pass_reset_token('admins');
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function(resp) {
-                    if (resp.status == 'success') {
+                    if (resp.status == 200) {
                         $('#alert').removeAttr('hidden');
                         $('#msg').removeClass('border-l-red-600 text-red-700');
                         $('#msg').addClass('border-l-green-500 text-green-600');
                         $('#success').attr('hidden', true);
-                    } else if (resp.status == 'error') {
+                    } else {
                         $('#alert').removeAttr('hidden');
                     }
 

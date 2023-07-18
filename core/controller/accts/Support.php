@@ -30,11 +30,11 @@ class Support extends DBConn {
         foreach ($adminTbl as $d) {
             if ($_POST['email'] === $d['email'] && password_verify($_POST['password'], $d['password'])) {
                 $_SESSION['support_id'] = $d['id'];
-                return parent::alert('success', '');
+                return parent::resp();
             }
         }
 
-        return parent::alert('error', $msg);
+        return parent::resp(200, $msg);
     }
 
     public function pass_request() { 
@@ -43,7 +43,7 @@ class Support extends DBConn {
 
         Auth::check_csrf($_POST['csrf_token']); 
         if (Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY)) {
-            return parent::alert('error', 'You are a robot.');
+            return parent::resp(200, 'You are a robot.');
         } 
 
         if (!Auth::check_empty($_POST)) {
@@ -64,13 +64,13 @@ class Support extends DBConn {
                 $send = $mailer->send($_POST['email'], 'Support Password Reset Link', $mailer->forgot_temp($url));
 
                 if ($send) {
-                    return parent::alert('success', 'We have emailed your password reset link!');
+                    return parent::resp(200, 'We have emailed your password reset link!');
                 }
             }
-            return parent::alert('error', 'We can\'t find a user with that email address.');
+            return parent::resp(400, 'We can\'t find a user with that email address.');
         } 
 
-        return parent::alert('error', 'The Email field is required.');
+        return parent::resp(400, 'The Email field is required.');
     }
 
     public function reset_pass() {
@@ -87,13 +87,13 @@ class Support extends DBConn {
                     DBConn::update('supports', [
                         'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
                     ], "id = '{$validate[0]['id']}'");
-                    return parent::alert('success', 'Your password has been changed.');
+                    return parent::resp(200, 'Your password has been changed.');
                 }
-                return parent::alert('error', 'Password does not match.');
+                return parent::resp(400, 'Password does not match.');
             }
-            return parent::alert('error', 'Email address does not match.');
+            return parent::resp(400, 'Email address does not match.');
         }
-        return parent::alert('error', 'Please fill out the required fields.');
+        return parent::resp(400, 'Please fill out the required fields.');
     }
 
     public function update_profile() {
@@ -151,6 +151,6 @@ class Support extends DBConn {
             'password' => password_hash($_POST['new_password'], PASSWORD_BCRYPT),
         ], "id = '{$_POST['id']}'");
 
-        return parent::resp(200);
+        return parent::resp();
     }
 }

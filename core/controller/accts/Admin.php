@@ -25,14 +25,15 @@ class Admin extends DBConn {
             ]);
         }
 
-        $d = parent::select('admins','*', ['email' => $_POST['email']], null, 1);
-    
-        if ($_POST['email'] === $d[0]['email'] && password_verify($_POST['password'], $d[0]['password'])) {
-            $_SESSION['admin_id'] = $d[0]['id'];
-            return parent::resp('success', '');
-        } 
-        
-        return parent::alert('error', 'Incorrect email or password.');
+        $adminTbl = parent::select('admins','*', ['email' => $_POST['email']], null, 1);
+
+        foreach ($adminTbl as $d) { 
+            if ($_POST['email'] === $d['email'] && password_verify($_POST['password'], $d['password'])) {                
+                $_SESSION['admin_id'] = $d['id'];
+                return parent::resp();
+            }
+        }
+        return parent::resp(400, 'Incorrect email or password.'); 
     }
 
     public function pass_request() { 
@@ -41,7 +42,7 @@ class Admin extends DBConn {
 
         Auth::check_csrf($_POST['csrf_token']); 
         if (Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY)) {
-            return parent::alert('error', 'You are a robot.');
+            return parent::resp(400, 'You are a robot.');
         } 
 
         if (!Auth::check_empty($_POST)) {
@@ -62,13 +63,13 @@ class Admin extends DBConn {
                 $send = $mailer->send($_POST['email'], 'Admin Password Reset Link', $mailer->forgot_temp($url));
 
                 if ($send) {
-                    return parent::alert('success', 'We have emailed your password reset link!');
+                    return parent::resp(200, 'We have emailed your password reset link!');
                 }
             }
-            return parent::alert('error', 'We can\'t find a user with that email address.');
+            return parent::resp(200, 'We can\'t find a user with that email address.');
         } 
 
-        return parent::alert('error', 'The Email field is required.');
+        return parent::resp(200, 'The Email field is required.');
     }
 
     public function reset_pass() {
@@ -85,13 +86,13 @@ class Admin extends DBConn {
                     DBConn::update('admins', [
                         'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
                     ], "id = '{$validate[0]['id']}'");
-                    return parent::alert('success', 'Your password has been changed.');
+                    return parent::resp(200, 'Your password has been changed.');
                 }
-                return parent::alert('error', 'Password does not match.');
+                return parent::resp(400, 'Password does not match.');
             }
-            return parent::alert('error', 'Email address does not match.');
+            return parent::resp(400, 'Email address does not match.');
         }
-        return parent::alert('error', 'Please fill out the required fields.');
+        return parent::resp(400, 'Please fill out the required fields.');
     }
 
     public function update_profile() { 
@@ -151,6 +152,6 @@ class Admin extends DBConn {
             'password' => password_hash($_POST['new_password'], PASSWORD_BCRYPT),
         ], "id = '{$_POST['id']}'");
 
-        return parent::resp(200);
+        return parent::resp();
     }
 }

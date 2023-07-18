@@ -80,9 +80,9 @@ Auth::check_login_auth('user_id', '_/');
                     },
                     dataType: 'json',
                     success: function(resp) {
-                        if (resp.status === 'success') {
+                        if (resp.status == 200) {
                             window.location.href = '?vs=_/'
-                        } else if (resp.status === 'error') {
+                        } else {
                             $('#alert').removeAttr('hidden');
                             if (resp.msg == '') {
                                 $('#msg').html(resp.empty);

@@ -90,7 +90,7 @@ class DBConn {
     
             return $statement->rowCount();
         } catch (PDOException $e) {
-            return self::alert('error', $e->getMessage());
+            return self::resp(200, $e->getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ class DBConn {
         
         if ($limit) {
             $query .= " LIMIT $limit";
-        }
+        } 
         
         $stmt = self::$conn->prepare($query);
         $stmt->execute($where);
@@ -153,16 +153,9 @@ class DBConn {
         } catch (PDOException $e) {
             echo 'Query failed: ' . $e->getMessage();
         }
-    }
+    } 
 
-    public static function alert($status, $message = '') {
-        return json_encode([
-                    'status' => $status, 
-                    'msg' => $message
-                ]);
-    }
-
-    public static function resp($status, $message = '') {
+    public static function resp($status = 200, $message = '') {
         return json_encode([
                     'status' => $status, 
                     'msg' => $message

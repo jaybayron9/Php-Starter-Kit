@@ -93,10 +93,10 @@
                         },
                         dataType: 'json',
                         success: function(resp) {
-                            if (resp.status == 'success') {
+                            if (resp.status == 200) {
                                 $('#alert').attr('hidden', '');
                                 window.location.href = '?vs=_/';
-                            } else if (resp.status == 'error') {
+                            } else {
                                 if (resp.msg !== '') {
                                     $('#alert').removeAttr('hidden');
                                     $('#msg').html(resp.msg);

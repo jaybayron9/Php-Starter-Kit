@@ -71,9 +71,9 @@ Auth::check_login_auth('support_id', '_sup/');
                     },
                     dataType: 'json',
                     success: function(resp) {
-                        if (resp.status === 'success') {
+                        if (resp.status == 200) {
                             window.location.href = '?vs=_sup/'
-                        } else if (resp.status === 'error') {
+                        } else {
                             $('#alert').removeAttr('hidden');
                             $('#msg').html(resp.msg);
                             $('#email, #password').val('');

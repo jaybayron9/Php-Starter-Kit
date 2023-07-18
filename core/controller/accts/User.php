@@ -7,7 +7,7 @@ use DBConn\DBConn;
 use FHandler\FHandler;
 
 class User extends DBConn {
-    public function sign_in() {
+    public function sign_in() { 
         $config = require('config.php'); 
         extract($config['recaptchav3']);
 
@@ -33,10 +33,10 @@ class User extends DBConn {
                 isset($_POST['remember']) ?? setcookie('user_id', $v['id'], time() + 30 * 24 * 60 * 60);
                 
                 $_SESSION['user_id'] = $v['id'];
-                return parent::alert('success', '');
+                return parent::resp();
             }
         }
-        return parent::alert('error', $msg);
+        return parent::resp(400, $msg);
     }
 
     public function sign_out() {
@@ -91,7 +91,7 @@ class User extends DBConn {
             'email_verify_token' => $token
         ], "id = '{$id[0]['id']}'");
 
-        return parent::alert('success');
+        return parent::resp();
     }
 
     public function send_verification_email() {
@@ -127,7 +127,7 @@ class User extends DBConn {
 
         Auth::check_csrf($_POST['csrf_token']); 
         if (Auth::reCaptchaV3($_POST['recaptcha'], $SECRET_KEY)) {
-            return parent::alert('error', 'You are a robot.');
+            return parent::resp(400, 'You are a robot.');
         } 
 
         if (!Auth::check_empty($_POST)) {
@@ -148,13 +148,13 @@ class User extends DBConn {
                 $send = $mailer->send($_POST['email'], 'Password Reset Link', $mailer->forgot_temp($url));
 
                 if ($send) {
-                    return parent::alert('success', 'We have emailed your password reset link!');
+                    return parent::resp(200, 'We have emailed your password reset link!');
                 }
             }
-            return parent::alert('error', 'We can\'t find a user with that email address.');
+            return parent::resp(400, 'We can\'t find a user with that email address.');
         } 
 
-        return parent::alert('error', 'The Email field is required.');
+        return parent::resp(400, 'The Email field is required.');
     }
 
     public function reset_password() {
@@ -171,13 +171,13 @@ class User extends DBConn {
                     parent::update('users', [
                         'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
                     ], "id = '{$validate[0]['id']}'");
-                    return parent::alert('success', 'Your password has been changed.');
+                    return parent::resp(200, 'Your password has been changed.');
                 }
-                return parent::alert('error', 'Password does not match.');
+                return parent::resp(400, 'Password does not match.');
             }
-            return parent::alert('error', 'Email address does not match.');
+            return parent::resp(400, 'Email address does not match.');
         }
-        return parent::alert('error', 'Please fill out the required fields.');
+        return parent::resp(400, 'Please fill out the required fields.');
     }
 
     public function update_profile() {
@@ -234,7 +234,7 @@ class User extends DBConn {
             'password' => password_hash($_POST['new_password'], PASSWORD_BCRYPT),
         ], "id = '{$_POST['id']}'");
 
-        return parent::resp(200);
+        return parent::resp();
     }
 
     public function delete_account() {
@@ -250,6 +250,6 @@ class User extends DBConn {
         unset($_SESSION['user_id']); 
         session_write_close();
 
-        return parent::resp(200);
+        return parent::resp();
     }
 }

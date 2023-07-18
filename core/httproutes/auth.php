@@ -5,11 +5,9 @@ use Data\Data;
 use Admin\Admin;
 use Client\User;
 use DBConn\DBConn;
-use Support\Support;
+use Support\Support; 
 
-$request = !isset($_GET['rq']) ? '' : strtolower($_GET['rq']);
-
-$response = [
+$auth_response = [
     'backup_database' => ['obj' => new DBConn(), 'method' => 'backupDatabase'],
     // Admin Authorization
     'admin_sign_in'            => ['obj' => new Admin(), 'method' => 'sign_in'],
@@ -57,6 +55,6 @@ $response = [
 
     // Unset Alert session
     'unset_alert_session' => ['obj' => new Data(), 'method' => 'unset_alert'],
-];
+]; 
 
-HTTPR($request, $response);
+HTTPR(strtolower($_GET['rq'] ?? ''), $auth_response);
